@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weatherapp/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,14 +11,46 @@ class HomeScreen extends StatelessWidget {
         slivers: [
           const _CustomAppBar(),
           SliverList(
-            delegate: SliverChildListDelegate([
-              const _MaxMinDescription(),
-              Container(
-                height: 1000,
-                color: Colors.green,
-              ),
-            ]),
+            delegate: SliverChildListDelegate(
+              [
+                const _MaxMinDescription(),
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: const [
+                    PercentCircle(text: 'Humidity'),
+                    PercentCircle(text: 'Cloudiness'),
+                  ],
+                ),
+                const _ActualWeatherWidgetsInfo(),
+                Container(
+                  height: 1000,
+                  color: Colors.green,
+                ),
+              ],
+            ),
           )
+        ],
+      ),
+    );
+  }
+}
+
+class _ActualWeatherWidgetsInfo extends StatelessWidget {
+  const _ActualWeatherWidgetsInfo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: const [
+          MiniInfoCard(),
+          MiniInfoCard(),
+          MiniInfoCard(),
         ],
       ),
     );
@@ -33,8 +66,7 @@ class _MaxMinDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: const EdgeInsets.all(10),
-      height: 100,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
