@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weatherapp/themes/themes.dart';
+
 import 'package:weatherapp/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -64,6 +66,8 @@ class _MaxMinDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme;
+
     return Container(
       alignment: Alignment.center,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -71,19 +75,19 @@ class _MaxMinDescription extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
+            children: [
               Text(
                 'Max 16º',
-                style: TextStyle(fontSize: 28),
+                style: style.headline4,
               ),
-              SizedBox(width: 5),
-              Text('Min 6º', style: TextStyle(fontSize: 28)),
-              SizedBox(width: 30),
-              Text('5 Marzo', style: TextStyle(fontSize: 18)),
+              const SizedBox(width: 5),
+              Text('Min 6º', style: style.headline4),
+              const SizedBox(width: 30),
+              Text('5 Marzo 19:30', style: style.headline5),
             ],
           ),
           const SizedBox(height: 10),
-          const Text('Cielo bastante nublado', style: TextStyle(fontSize: 28))
+          Text('Cielo bastante nublado', style: style.headline4)
         ],
       ),
     );
@@ -114,16 +118,26 @@ class _CustomAppBar extends StatelessWidget {
             FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'),
               image: NetworkImage(
-                  'https://cdn.pixabay.com/photo/2020/02/05/10/19/sunshine-4820723_960_720.jpg'),
+                  'https://torange.biz/photofxnew/1/HD/clear-sky-1049.jpg'),
               fit: BoxFit.cover,
             ),
             _InfoCenter(),
           ],
         ),
         titlePadding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
-        title: const Text('Barcelona'),
+        title: const Text(
+          'Cerdanyola del vallés',
+          maxLines: 2,
+          style: TextStyle(
+            overflow: TextOverflow.ellipsis,
+            shadows: [
+              AppTheme.shadow,
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
+        expandedTitleScale: 1.6,
         centerTitle: true,
-        expandedTitleScale: 2,
       ),
     );
   }
@@ -136,44 +150,47 @@ class _InfoCenter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      const SizedBox(height: 250),
-      const Text(
-        '16ºC',
-        style: TextStyle(
-            fontSize: 80, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-      const SizedBox(height: 10),
-      Column(
-        children: [
-          Container(
-            color: Colors.green,
-            height: 50,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Text('Barcelona'),
-                SizedBox(width: 18),
-                Icon(Icons.gps_fixed),
-              ],
-            ),
+    final style = Theme.of(context).textTheme;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const SizedBox(height: 250),
+        const Text(
+          '16ºC',
+          style: TextStyle(
+            fontSize: 80,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            shadows: [
+              AppTheme.shadow,
+            ],
           ),
-          Container(
-            color: Colors.blue,
-            height: 50,
-            child: Center(
+        ),
+        const SizedBox(height: 5),
+        Column(
+          children: [
+            Center(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Text('Nublado'),
-                  SizedBox(width: 18),
-                  Icon(Icons.cloud)
+                children: [
+                  Text(
+                    'Nublado',
+                    style: style.headline4,
+                  ),
+                  const SizedBox(width: 10),
+                  const Icon(Icons.cloud)
                 ],
               ),
             ),
-          ),
-        ],
-      )
-    ]);
+            const SizedBox(height: 20),
+            const Icon(
+              Icons.location_on_sharp,
+              size: 40,
+              color: Colors.white,
+            ),
+          ],
+        )
+      ],
+    );
   }
 }
