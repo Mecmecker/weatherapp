@@ -25,5 +25,7 @@ class AppTheme {
       headline4: TextStyle(fontSize: 28, color: Colors.white.withOpacity(0.8)),
       headline3: TextStyle(fontSize: 36, color: Colors.white.withOpacity(0.8)),
     ),
+    iconTheme: IconThemeData(color: Colors.blueGrey.withOpacity(0.6), size: 36),
+    dividerColor: Colors.white.withOpacity(0.1),
   );
 }
