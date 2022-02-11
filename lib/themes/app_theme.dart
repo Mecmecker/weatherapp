@@ -21,11 +21,14 @@ class AppTheme {
       ),
     ),
     textTheme: TextTheme(
+      headline6: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.8)),
       headline5: TextStyle(fontSize: 18, color: Colors.white.withOpacity(0.8)),
       headline4: TextStyle(fontSize: 28, color: Colors.white.withOpacity(0.8)),
       headline3: TextStyle(fontSize: 36, color: Colors.white.withOpacity(0.8)),
     ),
     iconTheme: IconThemeData(color: Colors.blueGrey.withOpacity(0.6), size: 36),
     dividerColor: Colors.white.withOpacity(0.1),
+    listTileTheme: ListTileThemeData(
+        iconColor: Colors.blueGrey.withOpacity(0.6), horizontalTitleGap: 10),
   );
 }
