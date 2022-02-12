@@ -11,7 +11,7 @@ class PercentCircle extends StatelessWidget {
       radius: 80,
       percent: 0.7,
       animation: true,
-      animationDuration: 300,
+      animationDuration: 1500,
       lineWidth: 15,
       arcType: ArcType.FULL,
       arcBackgroundColor: Colors.red.shade100,
