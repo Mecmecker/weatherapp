@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/widgets/widgets.dart';
 
+import '../themes/themes.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -55,18 +57,45 @@ class _MaxMinDescription extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                'Max 16º',
-                style: style.headline4,
-              ),
-              const SizedBox(width: 5),
-              Text('Min 6º', style: style.headline4),
+              _RichTextTemp(style: style, text: 'Max', temp: 16),
+              const SizedBox(width: 10),
+              _RichTextTemp(style: style, text: 'Min', temp: 6),
               const SizedBox(width: 30),
-              Text('5 Marzo 19:30', style: style.headline5),
+              Text(getCurrentDate(), style: style.headline5),
             ],
           ),
           const SizedBox(height: 10),
-          Text('Cielo bastante nublado', style: style.headline4)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Cielo bastante nublado', style: style.headline4),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _RichTextTemp extends StatelessWidget {
+  final String text;
+  final int temp;
+  const _RichTextTemp({
+    Key? key,
+    required this.style,
+    required this.text,
+    required this.temp,
+  }) : super(key: key);
+
+  final TextTheme style;
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(text: text, style: style.headline6),
+          TextSpan(text: ' $temp ºC', style: style.headline4)
         ],
       ),
     );

@@ -90,6 +90,11 @@ class _InfoCenter extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 10),
+            Text(
+              getCurrenthour(),
+              style: style.headline4,
+            ),
             const SizedBox(height: 20),
             const Icon(
               Icons.location_on_sharp,

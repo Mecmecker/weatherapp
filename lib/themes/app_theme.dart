@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AppTheme {
   static const Color primary = Color.fromARGB(255, 29, 0, 107);
@@ -31,4 +32,12 @@ class AppTheme {
     listTileTheme: ListTileThemeData(
         iconColor: Colors.blueGrey.withOpacity(0.6), horizontalTitleGap: 10),
   );
+}
+
+String getCurrentDate() {
+  return DateFormat('EEEE, d MMM').format(DateTime.now());
+}
+
+String getCurrenthour() {
+  return DateFormat('h:mm a').format(DateTime.now());
 }

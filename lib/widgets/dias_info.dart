@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -38,16 +37,16 @@ class _MiniDiaInfo extends StatelessWidget {
             style: style.headline5,
           ),
           RichText(
-            text: const TextSpan(
+            text: TextSpan(
               children: [
                 TextSpan(
                   text: 'Max 12º',
-                  style: TextStyle(color: Colors.red, fontSize: 16),
+                  style: TextStyle(color: Colors.red[300], fontSize: 16),
                 ),
-                TextSpan(text: ' | '),
+                const TextSpan(text: ' | '),
                 TextSpan(
                   text: 'Min 6º',
-                  style: TextStyle(color: Colors.blue, fontSize: 16),
+                  style: TextStyle(color: Colors.blue[300], fontSize: 16),
                 )
               ],
             ),
