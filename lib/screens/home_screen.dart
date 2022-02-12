@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weatherapp/models/models.dart';
+import 'package:weatherapp/providers/current_weather_provider.dart';
 import 'package:weatherapp/widgets/widgets.dart';
 
 import '../themes/themes.dart';
@@ -8,41 +11,57 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CurrentWeatherProvider weatherProvider =
+        Provider.of<CurrentWeatherProvider>(context);
+
+    final weathers = weatherProvider.currentWeathers;
+
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          const CustomAppBar(),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                const _MaxMinDescription(),
-                const Divider(),
-                const HorasInfoWidget(),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    PercentCircle(text: 'Humidity'),
-                    PercentCircle(text: 'Cloudiness'),
-                  ],
-                ),
-                const Divider(),
-                const ActualWeatherWidgetsInfo(),
-                const Divider(),
-                const DiasInfoWidget(),
-                const SizedBox(height: 80),
+      body: (weathers.isEmpty)
+          ? const CircularProgressIndicator()
+          : CustomScrollView(
+              slivers: [
+                CustomAppBar(weather: weathers[0]),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      _MaxMinDescription(weather: weathers[0]),
+                      const Divider(),
+                      const HorasInfoWidget(),
+                      const Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          PercentCircle(
+                              text: 'Humedad',
+                              weather: weathers[0],
+                              valor: weathers[0].main.humidity),
+                          PercentCircle(
+                            text: 'Nubes',
+                            weather: weathers[0],
+                            valor: weathers[0].clouds.all,
+                          ),
+                        ],
+                      ),
+                      const Divider(),
+                      ActualWeatherWidgetsInfo(weather: weathers[0]),
+                      const Divider(),
+                      const DiasInfoWidget(),
+                      const SizedBox(height: 80),
+                    ],
+                  ),
+                )
               ],
             ),
-          )
-        ],
-      ),
     );
   }
 }
 
 class _MaxMinDescription extends StatelessWidget {
+  final CurrentWeather weather;
   const _MaxMinDescription({
     Key? key,
+    required this.weather,
   }) : super(key: key);
 
   @override
@@ -57,9 +76,15 @@ class _MaxMinDescription extends StatelessWidget {
         children: [
           Row(
             children: [
-              _RichTextTemp(style: style, text: 'Max', temp: 16),
-              const SizedBox(width: 10),
-              _RichTextTemp(style: style, text: 'Min', temp: 6),
+              _RichTextTemp(
+                  style: style,
+                  text: 'Max',
+                  temp: weather.main.tempMax.round()),
+              const SizedBox(width: 5),
+              _RichTextTemp(
+                  style: style,
+                  text: 'Min',
+                  temp: weather.main.tempMin.round()),
               const SizedBox(width: 30),
               Text(getCurrentDate(), style: style.headline5),
             ],
@@ -68,7 +93,7 @@ class _MaxMinDescription extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Cielo bastante nublado', style: style.headline4),
+              Text(weather.weather[0].description, style: style.headline4),
             ],
           )
         ],

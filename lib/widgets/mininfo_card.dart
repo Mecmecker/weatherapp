@@ -27,7 +27,7 @@ class MiniInfoCard extends StatelessWidget {
             children: [
               Icon(icon),
               Text(text, style: style.headline5, textAlign: TextAlign.center),
-              Text('15 $unidades', style: style.headline5),
+              Text('$unidades', style: style.headline5),
             ],
           ),
         ),

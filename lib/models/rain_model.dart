@@ -2,10 +2,10 @@ import 'dart:convert';
 
 class Rain {
   Rain({
-    required this.the1H,
+    this.the1H,
   });
 
-  double the1H;
+  double? the1H;
 
   factory Rain.fromJson(String str) => Rain.fromMap(json.decode(str));
 

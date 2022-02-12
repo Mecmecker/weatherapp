@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:weatherapp/models/models.dart';
 
 class PercentCircle extends StatelessWidget {
   final String text;
-  const PercentCircle({Key? key, required this.text}) : super(key: key);
+  final int valor;
+  final CurrentWeather weather;
+  const PercentCircle(
+      {Key? key,
+      required this.text,
+      required this.weather,
+      required this.valor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CircularPercentIndicator(
       radius: 80,
-      percent: 0.7,
+      percent: valor / 100,
       animation: true,
       animationDuration: 1500,
       lineWidth: 15,
@@ -21,9 +29,9 @@ class PercentCircle extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                '70%',
-                style: TextStyle(fontSize: 36),
+              Text(
+                '$valor %',
+                style: const TextStyle(fontSize: 36),
               ),
               const SizedBox(height: 6),
               Text(text),

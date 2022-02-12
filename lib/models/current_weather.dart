@@ -52,7 +52,7 @@ class CurrentWeather {
         main: Main.fromMap(json["main"]),
         visibility: json["visibility"],
         wind: Wind.fromMap(json["wind"]),
-        rain: Rain.fromMap(json["rain"]),
+        //rain: Rain.fromMap(json["rain"]),
         clouds: Clouds.fromMap(json["clouds"]),
         dt: json["dt"],
         sys: Sys.fromMap(json["sys"]),
@@ -88,8 +88,8 @@ class Main {
     required this.tempMax,
     required this.pressure,
     required this.humidity,
-    required this.seaLevel,
-    required this.grndLevel,
+    this.seaLevel,
+    this.grndLevel,
   });
 
   double temp;
@@ -98,8 +98,8 @@ class Main {
   double tempMax;
   int pressure;
   int humidity;
-  int seaLevel;
-  int grndLevel;
+  int? seaLevel;
+  int? grndLevel;
 
   factory Main.fromJson(String str) => Main.fromMap(json.decode(str));
 
