@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
+    final style = Theme.of(context).textTheme;
     return SliverAppBar(
       expandedHeight: size.height - 130,
       floating: false,
@@ -40,12 +40,12 @@ class CustomAppBar extends StatelessWidget {
         title: Text(
           weather.name,
           maxLines: 2,
-          style: const TextStyle(
-            overflow: TextOverflow.ellipsis,
-            shadows: [
-              AppTheme.shadow,
-            ],
-          ),
+          style: TextStyle(
+              overflow: TextOverflow.ellipsis,
+              shadows: const [
+                AppTheme.shadow,
+              ],
+              color: style.headline4?.color),
           textAlign: TextAlign.center,
         ),
         expandedTitleScale: 1.6,
@@ -92,7 +92,14 @@ class _InfoCenter extends StatelessWidget {
                     style: style.headline4,
                   ),
                   const SizedBox(width: 10),
-                  const Icon(Icons.cloud)
+                  SizedBox(
+                    height: 60,
+                    width: 60,
+                    child: FadeInImage(
+                        placeholder: const AssetImage('assets/no-image.jpg'),
+                        image: NetworkImage(
+                            'http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png')),
+                  )
                 ],
               ),
             ),

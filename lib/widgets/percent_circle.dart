@@ -15,14 +15,23 @@ class PercentCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme;
     return CircularPercentIndicator(
       radius: 80,
       percent: valor / 100,
       animation: true,
-      animationDuration: 1500,
+      animationDuration: 5000,
+      circularStrokeCap: CircularStrokeCap.round,
       lineWidth: 15,
+      curve: Curves.easeInCirc,
+      linearGradient: const LinearGradient(
+        colors: [
+          Color.fromARGB(255, 66, 157, 185),
+          Color.fromARGB(255, 4, 96, 112),
+        ],
+      ),
       arcType: ArcType.FULL,
-      arcBackgroundColor: Colors.red.shade100,
+      arcBackgroundColor: const Color.fromARGB(255, 194, 226, 231),
       center: CircleAvatar(
         radius: 60,
         child: Center(
@@ -31,10 +40,13 @@ class PercentCircle extends StatelessWidget {
             children: [
               Text(
                 '$valor %',
-                style: const TextStyle(fontSize: 36),
+                style: style.headline4,
               ),
               const SizedBox(height: 6),
-              Text(text),
+              Text(
+                text,
+                style: style.headline5,
+              ),
             ],
           ),
         ),

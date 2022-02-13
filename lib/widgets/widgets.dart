@@ -6,3 +6,5 @@ export 'package:weatherapp/widgets/custom_appbar.dart';
 
 export 'package:weatherapp/widgets/horas_info.dart';
 export 'package:weatherapp/widgets/dias_info.dart';
+
+export 'package:weatherapp/widgets/bottom_description.dart';
