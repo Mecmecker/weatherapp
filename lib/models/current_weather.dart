@@ -52,7 +52,7 @@ class CurrentWeather {
         main: Main.fromMap(json["main"]),
         visibility: json["visibility"],
         wind: Wind.fromMap(json["wind"]),
-        //rain: Rain.fromMap(json["rain"]),
+        rain: json["rain"] == null ? null : Rain.fromMap(json["rain"]),
         clouds: Clouds.fromMap(json["clouds"]),
         dt: json["dt"],
         sys: Sys.fromMap(json["sys"]),
