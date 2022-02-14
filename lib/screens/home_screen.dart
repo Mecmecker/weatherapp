@@ -12,10 +12,11 @@ class HomeScreen extends StatelessWidget {
     final CurrentWeatherProvider weatherProvider =
         Provider.of<CurrentWeatherProvider>(context);
 
-    final weathers = weatherProvider.currentWeathers;
+    //final weathers = weatherProvider.currentWeathers;
+    final calls = weatherProvider.callsWeather;
 
     return Scaffold(
-      body: (weathers.isEmpty)
+      body: (calls.isEmpty)
           ? Container(
               width: double.infinity,
               height: double.infinity,
@@ -23,9 +24,9 @@ class HomeScreen extends StatelessWidget {
               child: const Center(child: CircularProgressIndicator()))
           : PageView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return _Pantalla(weather: weathers[index]);
+                return _Pantalla(call: calls[index]);
               },
-              itemCount: weathers.length,
+              itemCount: calls.length,
               scrollDirection: Axis.horizontal,
             ),
     );
@@ -35,41 +36,37 @@ class HomeScreen extends StatelessWidget {
 class _Pantalla extends StatelessWidget {
   const _Pantalla({
     Key? key,
-    required this.weather,
+    required this.call,
   }) : super(key: key);
 
-  final CurrentWeather weather;
+  final OneCallResponse call;
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        CustomAppBar(weather: weather),
+        CustomAppBar(weather: call),
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              MaxMinDescription(weather: weather),
+              MaxMinDescription(weather: call),
               const Divider(),
               const HorasInfoWidget(),
               const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  PercentCircle(
-                      text: 'Humedad',
-                      weather: weather,
-                      valor: weather.main.humidity),
+                  PercentCircle(text: 'Humedad', valor: call.current.humidity),
                   PercentCircle(
                     text: 'Nubes',
-                    weather: weather,
-                    valor: weather.clouds.all,
+                    valor: call.current.clouds,
                   ),
                 ],
               ),
               const Divider(),
-              ActualWeatherWidgetsInfo(weather: weather),
+              ActualWeatherWidgetsInfo(weather: call),
               const Divider(),
-              const DiasInfoWidget(),
+              DiasInfoWidget(weather: call),
               const SizedBox(height: 80),
             ],
           ),

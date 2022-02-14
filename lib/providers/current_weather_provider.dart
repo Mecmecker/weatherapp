@@ -12,20 +12,29 @@ class CurrentWeatherProvider extends ChangeNotifier {
   final int timezone = 3600;
 
   //Para pruebas, Luego se leeran de los favoritos guardados
-  final List<String> _cities = ['Barcelona', 'Madrid', 'Cerdanyola del Vallès'];
+  //final List<String> _cities = ['Barcelona', 'Madrid', 'Cerdanyola del Vallès'];
 
   List<CurrentWeather> currentWeathers = [];
 
-  final String _lat = '41.49064359025308';
-  final String _lon = '2.1356232423292703';
-
+  //final String _lat = '41.49064359025308';
+  //final String _lon = '2.1356232423292703';
   List<OneCallResponse> callsWeather = [];
 
+  final Map<String, List<String>> _mapCities = {
+    'Cerdanyola del Vallès': ['41.49064359025308', '2.1356232423292703'],
+    'Barcelona': ['41.385675742914465', '2.1705880101786517'],
+    'Madrid': ['40.41674014299714', '-3.699408682989556'],
+  };
+
   CurrentWeatherProvider() {
-    for (var city in _cities) {
+    /* for (var city in _cities) {
       getCurrentWeatherByCity(city);
     }
-    getOnCallWeather();
+    getOnCallWeather(); */
+    _mapCities.forEach((key, value) {
+      getCurrentWeatherByCity(key);
+      getOnCallWeather(value);
+    });
   }
 
   Future<String> _getJsonData(String endpoint, String city) async {
@@ -56,8 +65,9 @@ class CurrentWeatherProvider extends ChangeNotifier {
     return response.body;
   }
 
-  getOnCallWeather() async {
-    final jsonData = await _getJsonDataByGeo('data/2.5/onecall', _lat, _lon);
+  getOnCallWeather(List<String> geo) async {
+    final jsonData =
+        await _getJsonDataByGeo('data/2.5/onecall', geo[0], geo[1]);
     final OneCallResponse currentCall = OneCallResponse.fromJson(jsonData);
     callsWeather.add(currentCall);
 

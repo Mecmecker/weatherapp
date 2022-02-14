@@ -4,7 +4,7 @@ import 'package:weatherapp/models/models.dart';
 import '../themes/themes.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final CurrentWeather weather;
+  final OneCallResponse weather;
 
   const CustomAppBar({
     Key? key,
@@ -38,7 +38,7 @@ class CustomAppBar extends StatelessWidget {
         ),
         titlePadding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
         title: Text(
-          weather.name,
+          weather.timezone,
           maxLines: 2,
           style: TextStyle(
               overflow: TextOverflow.ellipsis,
@@ -56,7 +56,7 @@ class CustomAppBar extends StatelessWidget {
 }
 
 class _InfoCenter extends StatelessWidget {
-  final CurrentWeather weather;
+  final OneCallResponse weather;
   const _InfoCenter({
     Key? key,
     required this.weather,
@@ -70,7 +70,7 @@ class _InfoCenter extends StatelessWidget {
       children: [
         const SizedBox(height: 250),
         Text(
-          '${weather.main.temp.round()} ºC',
+          '${weather.current.temp.round()} ºC',
           style: const TextStyle(
             fontSize: 80,
             color: Colors.white,
@@ -88,7 +88,7 @@ class _InfoCenter extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    weather.weather[0].description,
+                    weather.current.weather[0].description,
                     style: style.headline4,
                   ),
                   const SizedBox(width: 10),
@@ -98,7 +98,7 @@ class _InfoCenter extends StatelessWidget {
                     child: FadeInImage(
                         placeholder: const AssetImage('assets/no-image.jpg'),
                         image: NetworkImage(
-                            'http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png')),
+                            'http://openweathermap.org/img/wn/${weather.current.weather[0].icon}@2x.png')),
                   )
                 ],
               ),

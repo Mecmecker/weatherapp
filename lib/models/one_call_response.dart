@@ -323,7 +323,7 @@ class Minutely {
 
   factory Minutely.fromMap(Map<String, dynamic> json) => Minutely(
         dt: json["dt"],
-        precipitation: json["precipitation"],
+        precipitation: json["precipitation"].round(),
       );
 
   Map<String, dynamic> toMap() => {

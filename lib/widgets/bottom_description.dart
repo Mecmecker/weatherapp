@@ -4,7 +4,7 @@ import '../models/models.dart';
 import '../themes/themes.dart';
 
 class MaxMinDescription extends StatelessWidget {
-  final CurrentWeather weather;
+  final OneCallResponse weather;
   const MaxMinDescription({
     Key? key,
     required this.weather,
@@ -26,19 +26,20 @@ class MaxMinDescription extends StatelessWidget {
               _RichTextTemp(
                   style: style,
                   text: 'Max',
-                  temp: weather.main.tempMax.round()),
+                  temp: weather.daily[0].temp.max.round()),
               const SizedBox(width: 20),
               _RichTextTemp(
                   style: style,
                   text: 'Min',
-                  temp: weather.main.tempMin.round()),
+                  temp: weather.daily[0].temp.min.round()),
             ],
           ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(weather.weather[0].description, style: style.headline4),
+              Text(weather.current.weather[0].description,
+                  style: style.headline4),
               Text(getCurrentDate(), style: style.headline5),
             ],
           )
