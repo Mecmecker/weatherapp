@@ -12,7 +12,6 @@ class HomeScreen extends StatelessWidget {
     final CurrentWeatherProvider weatherProvider =
         Provider.of<CurrentWeatherProvider>(context);
 
-    //final weathers = weatherProvider.currentWeathers;
     final calls = weatherProvider.callsWeather;
 
     return Scaffold(
@@ -24,7 +23,7 @@ class HomeScreen extends StatelessWidget {
               child: const Center(child: CircularProgressIndicator()))
           : PageView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return _Pantalla(call: calls[index]);
+                return _Pantalla(call: calls[index], index: index);
               },
               itemCount: calls.length,
               scrollDirection: Axis.horizontal,
@@ -34,15 +33,21 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _Pantalla extends StatelessWidget {
+  final int index;
   const _Pantalla({
     Key? key,
     required this.call,
+    required this.index,
   }) : super(key: key);
 
   final OneCallResponse call;
 
   @override
   Widget build(BuildContext context) {
+    final CurrentWeatherProvider weatherProvider =
+        Provider.of<CurrentWeatherProvider>(context);
+
+    final weathers = weatherProvider.currentWeathers;
     return CustomScrollView(
       slivers: [
         CustomAppBar(weather: call),

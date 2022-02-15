@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   flutter_dotenv: ^5.0.2
   font_awesome_flutter: ^9.2.0
+  geocoding: ^2.0.2
+  geolocator: ^8.2.0
   http: ^0.13.4
   intl: ^0.17.0
   percent_indicator: ^4.0.0

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:weatherapp/models/models.dart';
 
 import '../themes/themes.dart';
@@ -15,6 +16,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final style = Theme.of(context).textTheme;
+
     return SliverAppBar(
       expandedHeight: size.height - 130,
       floating: false,
@@ -38,7 +40,7 @@ class CustomAppBar extends StatelessWidget {
         ),
         titlePadding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
         title: Text(
-          weather.timezone,
+          weather.localizacion!.locality ?? '[${weather.lat},${weather.lon}',
           maxLines: 2,
           style: TextStyle(
               overflow: TextOverflow.ellipsis,

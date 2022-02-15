@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:geocoding/geocoding.dart';
 import 'package:weatherapp/models/models.dart';
 
 class OneCallResponse {
@@ -26,6 +27,8 @@ class OneCallResponse {
   List<Minutely> minutely;
   List<Current> hourly;
   List<Daily> daily;
+
+  Placemark? localizacion;
 
   factory OneCallResponse.fromJson(String str) =>
       OneCallResponse.fromMap(json.decode(str));
@@ -204,7 +207,8 @@ class Daily {
         dewPoint: json["dew_point"].toDouble(),
         windSpeed: json["wind_speed"].toDouble(),
         windDeg: json["wind_deg"],
-        windGust: json["wind_gust"],
+        windGust:
+            json["wind_gust"] == null ? null : json["wind_gust"].toDouble(),
         weather:
             List<Weather>.from(json["weather"].map((x) => Weather.fromMap(x))),
         clouds: json["clouds"],
