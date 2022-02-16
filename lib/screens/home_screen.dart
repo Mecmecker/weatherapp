@@ -68,7 +68,7 @@ class _Pantalla extends StatelessWidget {
               ActualWeatherWidgetsInfo(weather: call),
               const Divider(),
               DiasInfoWidget(weather: call),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Graficas(weather: call),
             ],
           ),
