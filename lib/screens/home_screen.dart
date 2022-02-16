@@ -44,10 +44,6 @@ class _Pantalla extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CurrentWeatherProvider weatherProvider =
-        Provider.of<CurrentWeatherProvider>(context);
-
-    final weathers = weatherProvider.currentWeathers;
     return CustomScrollView(
       slivers: [
         CustomAppBar(weather: call),
@@ -72,7 +68,8 @@ class _Pantalla extends StatelessWidget {
               ActualWeatherWidgetsInfo(weather: call),
               const Divider(),
               DiasInfoWidget(weather: call),
-              const SizedBox(height: 80),
+              const SizedBox(height: 10),
+              Graficas(weather: call),
             ],
           ),
         )

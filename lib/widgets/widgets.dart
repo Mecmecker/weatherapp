@@ -8,3 +8,5 @@ export 'package:weatherapp/widgets/horas_info.dart';
 export 'package:weatherapp/widgets/dias_info.dart';
 
 export 'package:weatherapp/widgets/bottom_description.dart';
+
+export 'package:weatherapp/widgets/graficas_widget.dart';

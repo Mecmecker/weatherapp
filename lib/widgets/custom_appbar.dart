@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:weatherapp/models/models.dart';
+import 'package:weatherapp/providers/current_weather_provider.dart';
 
 import '../themes/themes.dart';
 
@@ -111,11 +113,13 @@ class _InfoCenter extends StatelessWidget {
               style: style.headline4,
             ),
             const SizedBox(height: 20),
-            const Icon(
-              Icons.location_on_sharp,
-              size: 40,
-              color: Colors.white,
-            ),
+            if (Provider.of<CurrentWeatherProvider>(context).location ==
+                weather.localizacion?.locality)
+              const Icon(
+                Icons.location_on_sharp,
+                size: 40,
+                color: Colors.white,
+              ),
           ],
         )
       ],

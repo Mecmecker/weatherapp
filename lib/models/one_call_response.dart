@@ -79,6 +79,7 @@ class Current {
     this.windGust,
     this.pop,
     this.rain,
+    this.snow,
   });
 
   int dt;
@@ -98,6 +99,7 @@ class Current {
   double? windGust;
   double? pop;
   Rain? rain;
+  Snow? snow;
 
   factory Current.fromJson(String str) => Current.fromMap(json.decode(str));
 
@@ -123,6 +125,7 @@ class Current {
             json["wind_gust"] == null ? null : json["wind_gust"].toDouble(),
         pop: json["pop"] == null ? null : json["pop"].toDouble(),
         rain: json["rain"] == null ? null : Rain.fromMap(json["rain"]),
+        snow: json["snow"] == null ? null : Snow.fromMap(json["snow"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -143,6 +146,7 @@ class Current {
         "wind_gust": windGust,
         "pop": pop,
         "rain": rain == null ? null : rain!.toMap(),
+        "snow": snow == null ? null : snow!.toMap(),
       };
 }
 
@@ -166,6 +170,7 @@ class Daily {
     required this.clouds,
     required this.pop,
     this.rain,
+    this.snow,
     required this.uvi,
   });
 
@@ -187,6 +192,7 @@ class Daily {
   int clouds;
   double pop;
   double? rain;
+  double? snow;
   double uvi;
 
   factory Daily.fromJson(String str) => Daily.fromMap(json.decode(str));
@@ -214,6 +220,7 @@ class Daily {
         clouds: json["clouds"],
         pop: json["pop"].toDouble(),
         rain: json["rain"],
+        snow: json["snow"],
         uvi: json["uvi"].toDouble(),
       );
 
@@ -236,6 +243,7 @@ class Daily {
         "clouds": clouds,
         "pop": pop,
         "rain": rain,
+        "snow": snow,
         "uvi": uvi,
       };
 }
@@ -335,3 +343,6 @@ class Minutely {
         "precipitation": precipitation,
       };
 }
+
+
+// TODO: falta añadir modelo alerta

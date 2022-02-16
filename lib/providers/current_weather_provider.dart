@@ -10,9 +10,9 @@ class CurrentWeatherProvider extends ChangeNotifier {
   final String _language = 'es';
   final String _units = 'metric';
 
-  /* String _location = '';
+  String _location = 'Cerdanyola del Vallès';
   String get location => _location;
-  set location(String loc) {
+  /*set location(String loc) {
     _location = loc;
     notifyListeners();
   } */
