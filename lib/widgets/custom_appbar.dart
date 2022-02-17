@@ -68,6 +68,7 @@ class _InfoCenter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final style = Theme.of(context).textTheme;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -91,9 +92,14 @@ class _InfoCenter extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    weather.current.weather[0].description,
-                    style: style.headline4,
+                  SizedBox(
+                    width: size.width * 0.75 - 10,
+                    child: FittedBox(
+                      child: Text(
+                        weather.current.weather[0].description,
+                        style: style.headline4,
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 10),
                   SizedBox(

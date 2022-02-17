@@ -38,8 +38,9 @@ class CurrentWeatherProvider extends ChangeNotifier {
     'Cerdanyola del Vallès': ['41.49064359025308', '2.1356232423292703'],
     'Barcelona': ['41.385675742914465', '2.1705880101786517'],
     'Madrid': ['40.41674014299714', '-3.699408682989556'],
-    'Sunderland': ['54.9114327657272', '-1.383081962470879'],
     'L\'Hospitalet de LLobregat': ['41.3597', '2.1003'],
+    'Bruselas': ['50.88632783626364', '4.355948189844188'],
+    'Rzeszów': ['50.03838599493068', '21.98115834592852'],
   };
 
   CurrentWeatherProvider() {
@@ -49,7 +50,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     getOnCallWeather(); */
     mapCities.forEach((key, value) {
       //getCurrentWeatherByCity(key);
-      getOnCallWeather(value);
+      getOneCallWeather(value);
     });
   }
 
@@ -82,7 +83,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     return response.body;
   }
 
-  getOnCallWeather(List<String> geo) async {
+  getOneCallWeather(List<String> geo) async {
     final jsonData =
         await _getJsonDataByGeo('data/2.5/onecall', geo[0], geo[1]);
     final OneCallResponse currentCall = OneCallResponse.fromJson(jsonData);

@@ -13,6 +13,7 @@ class MaxMinDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
 
     return Container(
       alignment: Alignment.center,
@@ -38,9 +39,17 @@ class MaxMinDescription extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(weather.current.weather[0].description,
-                  style: style.headline4),
-              Text(getCurrentDate(), style: style.headline5),
+              SizedBox(
+                width: size.width * 0.6,
+                child: FittedBox(
+                  child: Text(weather.current.weather[0].description,
+                      style: style.headline4),
+                ),
+              ),
+              SizedBox(
+                  width: size.width * 0.3 - 10,
+                  child: FittedBox(
+                      child: Text(getCurrentDate(), style: style.headline5))),
             ],
           )
         ],

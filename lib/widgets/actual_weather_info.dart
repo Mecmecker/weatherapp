@@ -41,13 +41,15 @@ class ActualWeatherWidgetsInfo extends StatelessWidget {
               unidades: '${weather.current.temp.round()}ºC'),
           // si hay info de lluvia o nieve se añadira if()
           if (weather.current.rain != null)
-            const MiniInfoCard(
-                text: 'Lluvia', icon: FontAwesomeIcons.water, unidades: 'mm'),
+            MiniInfoCard(
+                text: 'Lluvia',
+                icon: FontAwesomeIcons.cloudRain,
+                unidades: '${weather.current.rain!.the1H} mm'),
           if (weather.current.snow != null)
-            const MiniInfoCard(
+            MiniInfoCard(
                 text: 'Nieve',
                 icon: FontAwesomeIcons.snowflake,
-                unidades: 'mm'),
+                unidades: '${weather.current.snow!.the1H} mm'),
         ],
       ),
     );
