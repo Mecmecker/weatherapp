@@ -20,11 +20,15 @@ class HorasInfoWidget extends StatelessWidget {
       width: double.infinity,
       child: calls.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemBuilder: ((context, index) =>
-                  _MiniHoraInfo(info: calls[0].hourly[index])),
-              itemCount: calls[0].hourly.length,
-              scrollDirection: Axis.horizontal,
+          : GestureDetector(
+              onTap: () => Navigator.pushNamed(context, 'horas',
+                  arguments: weatherProvider.infoPorHoras.first),
+              child: ListView.builder(
+                itemBuilder: ((context, index) =>
+                    _MiniHoraInfo(info: calls[0].hourly[index])),
+                itemCount: calls[0].hourly.length,
+                scrollDirection: Axis.horizontal,
+              ),
             ),
     );
   }

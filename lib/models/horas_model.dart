@@ -101,7 +101,6 @@ class ListElement {
     required this.wind,
     required this.visibility,
     required this.pop,
-    required this.sys,
     required this.dtTxt,
     this.rain,
   });
@@ -113,7 +112,7 @@ class ListElement {
   Wind wind;
   int visibility;
   double pop;
-  Sys sys;
+
   DateTime dtTxt;
   Rain? rain;
 
@@ -131,7 +130,6 @@ class ListElement {
         wind: Wind.fromMap(json["wind"]),
         visibility: json["visibility"],
         pop: json["pop"].toDouble(),
-        sys: Sys.fromMap(json["sys"]),
         dtTxt: DateTime.parse(json["dt_txt"]),
         rain: json["rain"] == null ? null : Rain.fromMap(json["rain"]),
       );
@@ -144,7 +142,6 @@ class ListElement {
         "wind": wind.toMap(),
         "visibility": visibility,
         "pop": pop,
-        "sys": sys.toMap(),
         "dt_txt": dtTxt.toIso8601String(),
         "rain": rain == null ? null : rain!.toMap(),
       };

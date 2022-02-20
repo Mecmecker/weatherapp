@@ -38,6 +38,8 @@ class MyApp extends StatelessWidget {
       initialRoute: 'home',
       routes: {
         'home': (context) => const HomeScreen(),
+        'horas': (context) => const GraficasHorasScreen(),
+        'dias': (context) => const GraficasDiasScreen(),
       },
       theme: AppTheme.darkTheme,
     );

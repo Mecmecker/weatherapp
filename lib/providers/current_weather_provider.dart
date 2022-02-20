@@ -28,11 +28,14 @@ class CurrentWeatherProvider extends ChangeNotifier {
   //Para pruebas, Luego se leeran de los favoritos guardados
   //final List<String> _cities = ['Barcelona', 'Madrid', 'Cerdanyola del Vallès'];
 
-  List<CurrentWeather> currentWeathers = [];
+  //List<CurrentWeather> currentWeathers = [];
 
   //final String _lat = '41.49064359025308';
   //final String _lon = '2.1356232423292703';
   List<OneCallResponse> callsWeather = [];
+
+  //Pruebas para las graficas de tiempo
+  Set<HorasModel> infoPorHoras = {};
 
   final Map<String, List<String>> mapCities = {
     'Cerdanyola del Vallès': ['41.49064359025308', '2.1356232423292703'],
@@ -52,9 +55,10 @@ class CurrentWeatherProvider extends ChangeNotifier {
       //getCurrentWeatherByCity(key);
       getOneCallWeather(value);
     });
+    getFourDayHourlyWeather(['41.49064359025308', '2.1356232423292703']);
   }
 
-  Future<String> _getJsonData(String endpoint, String city) async {
+  /*  Future<String> _getJsonData(String endpoint, String city) async {
     final url = Uri.https(_baseUrl, endpoint,
         {'q': city, 'APPID': _apiKey, 'lang': _language, 'units': _units});
     final response = await http.get(url);
@@ -68,7 +72,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     currentWeathers.add(currentWeather);
 
     notifyListeners();
-  }
+  } */
 
   Future<String> _getJsonDataByGeo(
       String endpoint, String lat, String lon) async {
@@ -92,6 +96,14 @@ class CurrentWeatherProvider extends ChangeNotifier {
     currentCall.localizacion = localizacion;
     callsWeather.add(currentCall);
 
+    notifyListeners();
+  }
+
+  getFourDayHourlyWeather(List<String> geo) async {
+    final jsonData =
+        await _getJsonDataByGeo('data/2.5/forecast/hourly', geo[0], geo[1]);
+    final HorasModel currentCall = HorasModel.fromJson(jsonData);
+    infoPorHoras.add(currentCall);
     notifyListeners();
   }
 }

@@ -12,7 +12,7 @@ class DiasInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => Navigator.pushNamed(context, 'dias'),
       child: SizedBox(
         height: MediaQuery.of(context).size.height - 300,
         width: double.infinity,
