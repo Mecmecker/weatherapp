@@ -74,3 +74,9 @@ String getCurrentDate() {
 String getCurrenthour() {
   return DateFormat('h:mm a').format(DateTime.now());
 }
+
+String getTimeFromUnix(int dt) {
+  return DateFormat('h:mm a').format(
+    DateTime.fromMillisecondsSinceEpoch(dt * 1000),
+  );
+}
