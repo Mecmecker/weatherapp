@@ -170,6 +170,25 @@ class MainClass {
   int humidity;
   double tempKf;
 
+  Map<String, dynamic> _toMap() {
+    return {
+      'temp': temp,
+      'feelsLike': feelsLike,
+      'tempMin': tempMin,
+      'tempMax': tempMax,
+      'pressure': pressure,
+      'humidity': humidity,
+    };
+  }
+
+  dynamic get(String propertyName) {
+    var _mapRep = _toMap();
+    if (_mapRep.containsKey(propertyName)) {
+      return _mapRep[propertyName];
+    }
+    throw ArgumentError('propery not found');
+  }
+
   factory MainClass.fromJson(String str) => MainClass.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());

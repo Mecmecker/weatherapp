@@ -9,7 +9,7 @@ class Wind {
 
   double speed;
   int deg;
-  double? gust;
+  num? gust;
 
   factory Wind.fromJson(String str) => Wind.fromMap(json.decode(str));
 
