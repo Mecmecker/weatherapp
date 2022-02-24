@@ -7,12 +7,20 @@ import 'package:weatherapp/providers/current_weather_provider.dart';
 
 class DiasInfoWidget extends StatelessWidget {
   final OneCallResponse weather;
+
   const DiasInfoWidget({Key? key, required this.weather}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final CurrentWeatherProvider weatherProvider =
+        Provider.of<CurrentWeatherProvider>(context);
+
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, 'dias'),
+      onTap: () => Navigator.pushNamed(context, 'dias',
+          arguments: weatherProvider.infoPorDias[weatherProvider.infoPorDias
+              .indexWhere((element) =>
+                  element.city.coord.lat == weather.lat &&
+                  element.city.coord.lon == weather.lon)]),
       child: SizedBox(
         height: MediaQuery.of(context).size.height - 300,
         width: double.infinity,

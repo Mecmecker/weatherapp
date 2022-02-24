@@ -35,7 +35,8 @@ class CurrentWeatherProvider extends ChangeNotifier {
   List<OneCallResponse> callsWeather = [];
 
   //Pruebas para las graficas de tiempo
-  Set<HorasModel> infoPorHoras = {};
+  List<HorasModel> infoPorHoras = [];
+  List<DiasWeatherModel> infoPorDias = [];
 
   final Map<String, List<String>> mapCities = {
     'Cerdanyola del Vallès': ['41.49064359025308', '2.1356232423292703'],
@@ -54,8 +55,11 @@ class CurrentWeatherProvider extends ChangeNotifier {
     mapCities.forEach((key, value) {
       //getCurrentWeatherByCity(key);
       getOneCallWeather(value);
+      getFourDayHourlyWeather(value);
+      getSixteenDaysWeather(value);
     });
-    getFourDayHourlyWeather(['41.49064359025308', '2.1356232423292703']);
+    //getFourDayHourlyWeather(['41.49064359025308', '2.1356232423292703']);
+    //getSixteenDaysWeather(['41.49064359025308', '2.1356232423292703']);
   }
 
   /*  Future<String> _getJsonData(String endpoint, String city) async {
@@ -104,6 +108,14 @@ class CurrentWeatherProvider extends ChangeNotifier {
         await _getJsonDataByGeo('data/2.5/forecast/hourly', geo[0], geo[1]);
     final HorasModel currentCall = HorasModel.fromJson(jsonData);
     infoPorHoras.add(currentCall);
+    notifyListeners();
+  }
+
+  getSixteenDaysWeather(List<String> geo) async {
+    final jsonData =
+        await _getJsonDataByGeo('data/2.5/forecast/daily', geo[0], geo[1]);
+    final DiasWeatherModel currentCall = DiasWeatherModel.fromJson(jsonData);
+    infoPorDias.add(currentCall);
     notifyListeners();
   }
 }

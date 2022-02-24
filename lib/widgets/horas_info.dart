@@ -6,7 +6,8 @@ import 'package:weatherapp/models/models.dart';
 import 'package:weatherapp/providers/current_weather_provider.dart';
 
 class HorasInfoWidget extends StatelessWidget {
-  const HorasInfoWidget({Key? key}) : super(key: key);
+  final OneCallResponse weather;
+  const HorasInfoWidget({Key? key, required this.weather}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,10 @@ class HorasInfoWidget extends StatelessWidget {
           ? const Center(child: CircularProgressIndicator())
           : GestureDetector(
               onTap: () => Navigator.pushNamed(context, 'horas',
-                  arguments: weatherProvider.infoPorHoras.first),
+                  arguments: weatherProvider.infoPorHoras[
+                      weatherProvider.infoPorHoras.indexWhere((element) =>
+                          element.city.coord.lat == weather.lat &&
+                          element.city.coord.lon == weather.lon)]),
               child: ListView.builder(
                 itemBuilder: ((context, index) =>
                     _MiniHoraInfo(info: calls[0].hourly[index])),

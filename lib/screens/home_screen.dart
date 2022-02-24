@@ -52,7 +52,7 @@ class _Pantalla extends StatelessWidget {
             [
               MaxMinDescription(weather: call),
               const Divider(),
-              const HorasInfoWidget(),
+              HorasInfoWidget(weather: call),
               const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

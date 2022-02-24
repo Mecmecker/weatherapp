@@ -9,3 +9,5 @@ export 'package:weatherapp/models/one_call_response.dart';
 export 'package:weatherapp/models/snow_model.dart';
 
 export 'package:weatherapp/models/horas_model.dart';
+
+export 'package:weatherapp/models/sixteen_days_model.dart';
