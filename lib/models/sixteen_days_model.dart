@@ -2,6 +2,8 @@
 //
 //     final diasWeatherModel = diasWeatherModelFromMap(jsonString);
 
+// ignore_for_file: prefer_null_aware_operators
+
 import 'dart:convert';
 
 import 'package:weatherapp/models/models.dart';

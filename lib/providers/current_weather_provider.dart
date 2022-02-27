@@ -1,8 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:weatherapp/helpers/debouncer.dart';
+
 import 'package:weatherapp/models/models.dart';
 import 'package:http/http.dart' as http;
+import 'package:weatherapp/services/geolocator_service.dart';
 
 class CurrentWeatherProvider extends ChangeNotifier {
   final String _apiKey = dotenv.env['API_KEY']!;
@@ -10,28 +16,15 @@ class CurrentWeatherProvider extends ChangeNotifier {
   final String _language = 'es';
   final String _units = 'metric';
 
+  //api de autocomplete
+
+  final String _apiKeyCity = dotenv.env['API_KEY_CITY']!;
+
   String _location = 'Cerdanyola del Vallès';
   String get location => _location;
-  /*set location(String loc) {
-    _location = loc;
-    notifyListeners();
-  } */
-
-  Future<Placemark> getUbicacion(double lat, double lon) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
-
-    return placemarks[0];
-  }
 
   final int timezone = 3600;
 
-  //Para pruebas, Luego se leeran de los favoritos guardados
-  //final List<String> _cities = ['Barcelona', 'Madrid', 'Cerdanyola del Vallès'];
-
-  //List<CurrentWeather> currentWeathers = [];
-
-  //final String _lat = '41.49064359025308';
-  //final String _lon = '2.1356232423292703';
   List<OneCallResponse> callsWeather = [];
 
   //Pruebas para las graficas de tiempo
@@ -47,36 +40,50 @@ class CurrentWeatherProvider extends ChangeNotifier {
     'Rzeszów': ['50.03838599493068', '21.98115834592852'],
   };
 
-  CurrentWeatherProvider() {
-    /* for (var city in _cities) {
-      getCurrentWeatherByCity(city);
+  final GeolocatorService _geolocatorService = GeolocatorService();
+
+  Position? currentLocation;
+
+  final StreamController<List<CityModel>> _suggestionStreamController =
+      StreamController.broadcast();
+
+  Stream<List<CityModel>> get suggestionStream =>
+      _suggestionStreamController.stream;
+
+  final Debouncer debounce =
+      Debouncer(duration: const Duration(milliseconds: 500));
+
+  Future<List<String>> setCurrentLocation() async {
+    currentLocation = await _geolocatorService.getCurrentLocation();
+
+    notifyListeners();
+    if (currentLocation != null) {
+      return [
+        currentLocation!.latitude.toString(),
+        currentLocation!.longitude.toString()
+      ];
+    } else {
+      return <String>[];
     }
-    getOnCallWeather(); */
+  }
+
+  Future<Placemark> getUbicacion(double lat, double lon) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
+
+    return placemarks[0];
+  }
+
+  CurrentWeatherProvider() {
+    getCurrentLocationWeather();
+
     mapCities.forEach((key, value) {
-      //getCurrentWeatherByCity(key);
       getOneCallWeather(value);
       getFourDayHourlyWeather(value);
       getSixteenDaysWeather(value);
     });
-    //getFourDayHourlyWeather(['41.49064359025308', '2.1356232423292703']);
-    //getSixteenDaysWeather(['41.49064359025308', '2.1356232423292703']);
   }
 
-  /*  Future<String> _getJsonData(String endpoint, String city) async {
-    final url = Uri.https(_baseUrl, endpoint,
-        {'q': city, 'APPID': _apiKey, 'lang': _language, 'units': _units});
-    final response = await http.get(url);
-    return response.body;
-  }
-
-  getCurrentWeatherByCity(String city) async {
-    final jsonData = await _getJsonData('data/2.5/weather', city);
-    final CurrentWeather currentWeather = CurrentWeather.fromJson(jsonData);
-
-    currentWeathers.add(currentWeather);
-
-    notifyListeners();
-  } */
+  //shred preferences functions
 
   Future<String> _getJsonDataByGeo(
       String endpoint, String lat, String lon) async {
@@ -96,7 +103,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
         await _getJsonDataByGeo('data/2.5/onecall', geo[0], geo[1]);
     final OneCallResponse currentCall = OneCallResponse.fromJson(jsonData);
     final localizacion = await getUbicacion(currentCall.lat, currentCall.lon);
-    print(localizacion.locality);
+
     currentCall.localizacion = localizacion;
     callsWeather.add(currentCall);
 
@@ -117,5 +124,50 @@ class CurrentWeatherProvider extends ChangeNotifier {
     final DiasWeatherModel currentCall = DiasWeatherModel.fromJson(jsonData);
     infoPorDias.add(currentCall);
     notifyListeners();
+  }
+
+  getCurrentLocationWeather() async {
+    final geo = await setCurrentLocation();
+    if (geo.isNotEmpty) {
+      await getUbicacion(double.parse(geo[0]), double.parse(geo[1]))
+          .then((value) => _location = value.locality!);
+      getOneCallWeather(geo);
+      getFourDayHourlyWeather(geo);
+      getFourDayHourlyWeather(geo);
+    }
+  }
+
+  //autocomplete
+  Future<List<CityModel>> searchCity(String query) async {
+    final url = Uri.https("app.geocodeapi.io", 'api/v1/autocomplete', {
+      'text': query,
+      'apikey': _apiKeyCity,
+    });
+    final response = await http.get(url);
+    final autosearch = AutocompleteSearchModel.fromJson(response.body);
+
+    return [
+      for (Feature f in autosearch.features)
+        CityModel(
+            name: f.properties.name,
+            country: f.properties.country,
+            countryA: f.properties.countryA ?? '',
+            cood: Coord(
+                lon: f.geometry.coordinates[0], lat: f.geometry.coordinates[1]))
+    ];
+  }
+
+  getSuggestionsByQuery(String valor) {
+    debounce.value = '';
+    debounce.onValue = (value) async {
+      final results = await searchCity(value);
+      _suggestionStreamController.add(results);
+    };
+    final timer = Timer.periodic(const Duration(milliseconds: 300), (_) {
+      debounce.value = valor;
+    });
+
+    Future.delayed(const Duration(milliseconds: 301))
+        .then((value) => timer.cancel());
   }
 }

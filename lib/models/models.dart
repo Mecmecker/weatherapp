@@ -11,3 +11,6 @@ export 'package:weatherapp/models/snow_model.dart';
 export 'package:weatherapp/models/horas_model.dart';
 
 export 'package:weatherapp/models/sixteen_days_model.dart';
+
+export 'package:weatherapp/models/city_model.dart';
+export 'package:weatherapp/models/Autocomplete_search_model.dart';

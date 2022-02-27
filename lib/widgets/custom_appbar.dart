@@ -24,7 +24,14 @@ class CustomAppBar extends StatelessWidget {
       floating: false,
       pinned: true,
       leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-      actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+      actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, 'search');
+          },
+          icon: const Icon(Icons.search),
+        )
+      ],
       centerTitle: true,
       automaticallyImplyLeading: true,
       flexibleSpace: FlexibleSpaceBar(

@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         'home': (context) => const HomeScreen(),
         'horas': (context) => const GraficasHorasScreen(),
         'dias': (context) => const GraficasDiasScreen(),
+        'search': (context) => const SearchScreen(),
       },
       theme: AppTheme.darkTheme,
     );

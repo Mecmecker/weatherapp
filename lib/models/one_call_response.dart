@@ -2,6 +2,8 @@
 //
 //     final oneCallResponse = oneCallResponseFromMap(jsonString);
 
+// ignore_for_file: prefer_null_aware_operators
+
 import 'dart:convert';
 
 import 'package:geocoding/geocoding.dart';
