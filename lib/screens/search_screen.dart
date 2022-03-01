@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,36 +17,72 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   String? cityName;
+  CameraUpdate? update;
+  final Completer<GoogleMapController> _controller = Completer();
+  late GoogleMapController _mapController;
+
+  MapType mapType = MapType.normal;
 
   @override
   Widget build(BuildContext context) {
     final CurrentWeatherProvider currentWeatherProvider =
         Provider.of<CurrentWeatherProvider>(context);
 
+    Set<Marker> markers = <Marker>{};
+    markers.add(
+      Marker(
+        markerId: const MarkerId('geo-location'),
+        position: LatLng(currentWeatherProvider.currentLocation!.latitude,
+            currentWeatherProvider.currentLocation!.longitude),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Search Screen'),
       ),
-      body: ListView(
+      body: Column(
         children: [
           TextButton(
               onPressed: () {
-                showSearch(context: context, delegate: CountrySearchDelegate());
+                showSearch(context: context, delegate: CountrySearchDelegate())
+                    .then((city) {
+                  cityName = city.name;
+                  markers.add(
+                    Marker(
+                      markerId: MarkerId(city.name),
+                      position: LatLng(city.cood.lat, city.cood.lon),
+                    ),
+                  );
+                  update = CameraUpdate.newLatLng(
+                      LatLng(city.cood.lat, city.cood.lon));
+                  changePosition(update!);
+
+                  setState(() {});
+                });
               },
               child: Text(cityName ?? currentWeatherProvider.location)),
           if (currentWeatherProvider.currentLocation != null)
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 150,
-              width: double.infinity,
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                      currentWeatherProvider.currentLocation!.latitude,
-                      currentWeatherProvider.currentLocation!.longitude),
-                  zoom: 17,
+            Expanded(
+              child: SizedBox(
+                width: double.infinity,
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(
+                        currentWeatherProvider.currentLocation!.latitude,
+                        currentWeatherProvider.currentLocation!.longitude),
+                    zoom: 16,
+                  ),
+                  mapType: MapType.normal,
+                  myLocationEnabled: true,
+                  onMapCreated: (controller) {
+                    _controller.complete(controller);
+                    setState(() {
+                      _mapController = controller;
+                    });
+                  },
+                  markers: markers,
                 ),
-                mapType: MapType.normal,
-                myLocationEnabled: true,
               ),
             ),
           if (currentWeatherProvider.currentLocation == null)
@@ -54,5 +92,10 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
     );
+  }
+
+  changePosition(CameraUpdate update) {
+    _mapController.animateCamera(update);
+    _mapController.moveCamera(update);
   }
 }

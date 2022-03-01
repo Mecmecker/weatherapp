@@ -24,7 +24,7 @@ class CountrySearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text('hola');
+    return Text('build results: $query');
   }
 
   @override
@@ -75,7 +75,17 @@ class _Sugerencia extends StatelessWidget {
       title: Text(
         city.name + ',' + city.country + ',' + city.countryA,
       ),
-      onTap: () => Navigator.pop(context, city.cood),
+      onTap: () {
+        print(city.cood.lat.toString() + city.cood.lon.toString());
+        final weatherProvider =
+            Provider.of<CurrentWeatherProvider>(context, listen: false);
+        weatherProvider.addCity({
+          city.name: [city.cood.lat.toString(), city.cood.lon.toString()]
+        });
+        weatherProvider.updateWeather(
+            [city.cood.lat.toString(), city.cood.lon.toString()]);
+        Navigator.pop(context, city);
+      },
     );
   }
 }

@@ -58,7 +58,7 @@ class Geometry {
 class Properties {
   Properties({
     required this.name,
-    required this.country,
+    this.country,
     this.region,
     this.localadmin,
     this.locality,
@@ -68,7 +68,7 @@ class Properties {
   });
 
   String name;
-  String country;
+  String? country;
   String? region;
   String? localadmin;
   String? locality;

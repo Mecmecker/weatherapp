@@ -39,6 +39,18 @@ class CurrentWeatherProvider extends ChangeNotifier {
     'Bruselas': ['50.88632783626364', '4.355948189844188'],
     'Rzeszów': ['50.03838599493068', '21.98115834592852'],
   };
+  void updateWeather(List<String> geo) {
+    getOneCallWeather(geo);
+    getFourDayHourlyWeather(geo);
+    getSixteenDaysWeather(geo);
+    notifyListeners();
+  }
+
+  void addCity(Map<String, List<String>> city) {
+    mapCities.addAll(city);
+
+    notifyListeners();
+  }
 
   final GeolocatorService _geolocatorService = GeolocatorService();
 
@@ -73,6 +85,8 @@ class CurrentWeatherProvider extends ChangeNotifier {
     return placemarks[0];
   }
 
+  //init
+
   CurrentWeatherProvider() {
     getCurrentLocationWeather();
 
@@ -85,6 +99,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
 
   //shred preferences functions
 
+// weathers calls
   Future<String> _getJsonDataByGeo(
       String endpoint, String lat, String lon) async {
     final url = Uri.https(_baseUrl, endpoint, {
@@ -150,7 +165,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
       for (Feature f in autosearch.features)
         CityModel(
             name: f.properties.name,
-            country: f.properties.country,
+            country: f.properties.country ?? '',
             countryA: f.properties.countryA ?? '',
             cood: Coord(
                 lon: f.geometry.coordinates[0], lat: f.geometry.coordinates[1]))
