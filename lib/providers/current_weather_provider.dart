@@ -20,8 +20,10 @@ class CurrentWeatherProvider extends ChangeNotifier {
 
   final String _apiKeyCity = dotenv.env['API_KEY_CITY']!;
 
-  String _location = 'Cerdanyola del Vallès';
+  String _location = '';
   String get location => _location;
+
+  CityModel? locationSearch;
 
   final int timezone = 3600;
 

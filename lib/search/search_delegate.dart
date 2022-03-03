@@ -77,13 +77,7 @@ class _Sugerencia extends StatelessWidget {
       ),
       onTap: () {
         print(city.cood.lat.toString() + city.cood.lon.toString());
-        final weatherProvider =
-            Provider.of<CurrentWeatherProvider>(context, listen: false);
-        weatherProvider.addCity({
-          city.name: [city.cood.lat.toString(), city.cood.lon.toString()]
-        });
-        weatherProvider.updateWeather(
-            [city.cood.lat.toString(), city.cood.lon.toString()]);
+
         Navigator.pop(context, city);
       },
     );

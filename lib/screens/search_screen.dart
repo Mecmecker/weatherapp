@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weatherapp/models/models.dart';
 
 import 'package:weatherapp/providers/current_weather_provider.dart';
 import 'package:weatherapp/search/search_delegate.dart';
@@ -18,17 +19,18 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String? cityName;
   CameraUpdate? update;
+
   final Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController _mapController;
 
   MapType mapType = MapType.normal;
+  Set<Marker> markers = <Marker>{};
 
   @override
   Widget build(BuildContext context) {
     final CurrentWeatherProvider currentWeatherProvider =
         Provider.of<CurrentWeatherProvider>(context);
 
-    Set<Marker> markers = <Marker>{};
     markers.add(
       Marker(
         markerId: const MarkerId('geo-location'),
@@ -47,18 +49,19 @@ class _SearchScreenState extends State<SearchScreen> {
               onPressed: () {
                 showSearch(context: context, delegate: CountrySearchDelegate())
                     .then((city) {
+                  currentWeatherProvider.locationSearch = city;
                   cityName = city.name;
-                  markers.add(
-                    Marker(
-                      markerId: MarkerId(city.name),
-                      position: LatLng(city.cood.lat, city.cood.lon),
-                    ),
-                  );
                   update = CameraUpdate.newLatLng(
                       LatLng(city.cood.lat, city.cood.lon));
                   changePosition(update!);
-
-                  setState(() {});
+                  setState(() {
+                    markers.add(
+                      Marker(
+                        markerId: MarkerId(city.name),
+                        position: LatLng(city.cood.lat, city.cood.lon),
+                      ),
+                    );
+                  });
                 });
               },
               child: Text(cityName ?? currentWeatherProvider.location)),
@@ -73,6 +76,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         currentWeatherProvider.currentLocation!.longitude),
                     zoom: 16,
                   ),
+                  onTap: _changePlace,
                   mapType: MapType.normal,
                   myLocationEnabled: true,
                   onMapCreated: (controller) {
@@ -85,10 +89,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
+          if (currentWeatherProvider.locationSearch != null)
+            _ButtonBack(city: currentWeatherProvider.locationSearch!),
           if (currentWeatherProvider.currentLocation == null)
             const Center(
               child: CircularProgressIndicator.adaptive(),
-            )
+            ),
         ],
       ),
     );
@@ -97,5 +103,52 @@ class _SearchScreenState extends State<SearchScreen> {
   changePosition(CameraUpdate update) {
     _mapController.animateCamera(update);
     _mapController.moveCamera(update);
+  }
+
+  _changePlace(LatLng tappedPoint) {
+    markers.clear();
+    markers.add(
+      Marker(
+        markerId: const MarkerId('New position'),
+        position: tappedPoint,
+      ),
+    );
+    final cityProvider =
+        Provider.of<CurrentWeatherProvider>(context, listen: false);
+
+    setState(() {});
+    cityProvider
+        .getUbicacion(tappedPoint.latitude, tappedPoint.longitude)
+        .then((value) {
+      setState(() {
+        cityName = value.locality;
+      });
+    });
+
+    //TODO hacer las llamadas del tiempo para recibir los datos de la ciudad marcada
+  }
+}
+
+class _ButtonBack extends StatelessWidget {
+  final CityModel city;
+  const _ButtonBack({Key? key, required this.city}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        final weatherProvider =
+            Provider.of<CurrentWeatherProvider>(context, listen: false);
+        weatherProvider.addCity({
+          city.name: [city.cood.lat.toString(), city.cood.lon.toString()]
+        });
+        weatherProvider.updateWeather(
+            [city.cood.lat.toString(), city.cood.lon.toString()]);
+      },
+      child: const Text(
+        'Añadir',
+        style: TextStyle(fontSize: 30),
+      ),
+    );
   }
 }
