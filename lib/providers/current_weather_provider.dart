@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weatherapp/helpers/debouncer.dart';
 
 import 'package:weatherapp/models/models.dart';
@@ -33,14 +35,16 @@ class CurrentWeatherProvider extends ChangeNotifier {
   List<HorasModel> infoPorHoras = [];
   List<DiasWeatherModel> infoPorDias = [];
 
-  final Map<String, List<String>> mapCities = {
+  Map<String, dynamic> mapCities = {};
+
+  /* Map<String, List<String>> mapCities = {
     'Cerdanyola del Vallès': ['41.49064359025308', '2.1356232423292703'],
     'Barcelona': ['41.385675742914465', '2.1705880101786517'],
     'Madrid': ['40.41674014299714', '-3.699408682989556'],
     'L\'Hospitalet de LLobregat': ['41.3597', '2.1003'],
     'Bruselas': ['50.88632783626364', '4.355948189844188'],
     'Rzeszów': ['50.03838599493068', '21.98115834592852'],
-  };
+  }; */
   void updateWeather(List<String> geo) {
     getOneCallWeather(geo);
     getFourDayHourlyWeather(geo);
@@ -50,6 +54,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
 
   void addCity(Map<String, List<String>> city) {
     mapCities.addAll(city);
+    saveDataPreferences();
 
     notifyListeners();
   }
@@ -91,15 +96,39 @@ class CurrentWeatherProvider extends ChangeNotifier {
 
   CurrentWeatherProvider() {
     getCurrentLocationWeather();
+    getDataPreferences();
 
-    mapCities.forEach((key, value) {
+    /* mapCities.forEach((key, value) {
       getOneCallWeather(value);
       getFourDayHourlyWeather(value);
       getSixteenDaysWeather(value);
-    });
+    }); */
   }
 
   //shred preferences functions
+
+  Future<void> saveDataPreferences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.clear();
+
+    prefs.setString('datos', jsonEncode(mapCities));
+  }
+
+  Future<void> getDataPreferences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final datosJson = prefs.getString('datos');
+    if (datosJson != null) {
+      mapCities = Map<String, dynamic>.from(jsonDecode(datosJson));
+
+      mapCities.forEach((key, value) {
+        getOneCallWeather(value);
+        getFourDayHourlyWeather(value);
+        getSixteenDaysWeather(value);
+      });
+    }
+  }
 
 // weathers calls
   Future<String> _getJsonDataByGeo(
@@ -115,7 +144,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     return response.body;
   }
 
-  getOneCallWeather(List<String> geo) async {
+  getOneCallWeather(List<dynamic> geo) async {
     final jsonData =
         await _getJsonDataByGeo('data/2.5/onecall', geo[0], geo[1]);
     final OneCallResponse currentCall = OneCallResponse.fromJson(jsonData);
@@ -127,7 +156,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getFourDayHourlyWeather(List<String> geo) async {
+  getFourDayHourlyWeather(List<dynamic> geo) async {
     final jsonData =
         await _getJsonDataByGeo('data/2.5/forecast/hourly', geo[0], geo[1]);
     final HorasModel currentCall = HorasModel.fromJson(jsonData);
@@ -135,7 +164,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getSixteenDaysWeather(List<String> geo) async {
+  getSixteenDaysWeather(List<dynamic> geo) async {
     final jsonData =
         await _getJsonDataByGeo('data/2.5/forecast/daily', geo[0], geo[1]);
     final DiasWeatherModel currentCall = DiasWeatherModel.fromJson(jsonData);

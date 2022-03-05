@@ -76,8 +76,6 @@ class _Sugerencia extends StatelessWidget {
         city.name + ',' + city.country + ',' + city.countryA,
       ),
       onTap: () {
-        print(city.cood.lat.toString() + city.cood.lon.toString());
-
         Navigator.pop(context, city);
       },
     );

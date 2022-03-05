@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final CurrentWeatherProvider weatherProvider =
         Provider.of<CurrentWeatherProvider>(context);
-
+    weatherProvider.locationSearch = null;
     final calls = weatherProvider.callsWeather;
 
     return Scaffold(

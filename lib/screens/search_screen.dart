@@ -122,10 +122,13 @@ class _SearchScreenState extends State<SearchScreen> {
         .then((value) {
       setState(() {
         cityName = value.locality;
+        cityProvider.locationSearch = CityModel(
+            name: value.locality ?? '',
+            country: value.country ?? '',
+            countryA: '',
+            cood: Coord(lon: tappedPoint.longitude, lat: tappedPoint.latitude));
       });
     });
-
-    //TODO hacer las llamadas del tiempo para recibir los datos de la ciudad marcada
   }
 }
 
@@ -144,6 +147,8 @@ class _ButtonBack extends StatelessWidget {
         });
         weatherProvider.updateWeather(
             [city.cood.lat.toString(), city.cood.lon.toString()]);
+
+        Navigator.pop(context);
       },
       child: const Text(
         'Añadir',
