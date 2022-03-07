@@ -40,62 +40,62 @@ class _SearchScreenState extends State<SearchScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search Screen'),
-      ),
-      body: Column(
-        children: [
-          TextButton(
-              onPressed: () {
-                showSearch(context: context, delegate: CountrySearchDelegate())
-                    .then((city) {
-                  currentWeatherProvider.locationSearch = city;
-                  cityName = city.name;
-                  update = CameraUpdate.newLatLng(
-                      LatLng(city.cood.lat, city.cood.lon));
-                  changePosition(update!);
-                  setState(() {
-                    markers.add(
-                      Marker(
-                        markerId: MarkerId(city.name),
-                        position: LatLng(city.cood.lat, city.cood.lon),
-                      ),
-                    );
-                  });
-                });
-              },
-              child: Text(cityName ?? currentWeatherProvider.location)),
-          if (currentWeatherProvider.currentLocation != null)
-            Expanded(
-              child: SizedBox(
-                width: double.infinity,
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                        currentWeatherProvider.currentLocation!.latitude,
-                        currentWeatherProvider.currentLocation!.longitude),
-                    zoom: 16,
-                  ),
-                  onTap: _changePlace,
-                  mapType: MapType.normal,
-                  myLocationEnabled: true,
-                  onMapCreated: (controller) {
-                    _controller.complete(controller);
+      body: SafeArea(
+        child: Column(
+          children: [
+            TextButton(
+                onPressed: () {
+                  showSearch(
+                          context: context, delegate: CountrySearchDelegate())
+                      .then((city) {
+                    currentWeatherProvider.locationSearch = city;
+                    cityName = city.name;
+                    update = CameraUpdate.newLatLng(
+                        LatLng(city.cood.lat, city.cood.lon));
+                    changePosition(update!);
                     setState(() {
-                      _mapController = controller;
+                      markers.add(
+                        Marker(
+                          markerId: MarkerId(city.name),
+                          position: LatLng(city.cood.lat, city.cood.lon),
+                        ),
+                      );
                     });
-                  },
-                  markers: markers,
+                  });
+                },
+                child: Text(cityName ?? currentWeatherProvider.location)),
+            if (currentWeatherProvider.currentLocation != null)
+              Expanded(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                          currentWeatherProvider.currentLocation!.latitude,
+                          currentWeatherProvider.currentLocation!.longitude),
+                      zoom: 16,
+                    ),
+                    onTap: _changePlace,
+                    mapType: MapType.normal,
+                    myLocationEnabled: true,
+                    onMapCreated: (controller) {
+                      _controller.complete(controller);
+                      setState(() {
+                        _mapController = controller;
+                      });
+                    },
+                    markers: markers,
+                  ),
                 ),
               ),
-            ),
-          if (currentWeatherProvider.locationSearch != null)
-            _ButtonBack(city: currentWeatherProvider.locationSearch!),
-          if (currentWeatherProvider.currentLocation == null)
-            const Center(
-              child: CircularProgressIndicator.adaptive(),
-            ),
-        ],
+            if (currentWeatherProvider.locationSearch != null)
+              _ButtonBack(city: currentWeatherProvider.locationSearch!),
+            if (currentWeatherProvider.currentLocation == null)
+              const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+          ],
+        ),
       ),
     );
   }

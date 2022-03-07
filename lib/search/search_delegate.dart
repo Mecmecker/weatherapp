@@ -14,6 +14,21 @@ class CountrySearchDelegate extends SearchDelegate {
   }
 
   @override
+  ThemeData appBarTheme(BuildContext context) {
+    assert(context != null);
+    final ThemeData theme = Theme.of(context).copyWith(
+      textTheme: const TextTheme(
+        headline6: TextStyle(
+          color: Colors.white,
+          fontSize: 18.0,
+        ),
+      ),
+    );
+    assert(theme != null);
+    return theme;
+  }
+
+  @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
         onPressed: () {
@@ -24,7 +39,10 @@ class CountrySearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text('build results: $query');
+    return Text(
+      'build results: $query',
+      style: const TextStyle(color: Colors.black),
+    );
   }
 
   @override
@@ -56,9 +74,11 @@ class CountrySearchDelegate extends SearchDelegate {
         }
         final List<CityModel> cities = snapshot.data!;
 
-        return ListView.builder(
+        return ListView.separated(
           itemBuilder: ((context, index) => _Sugerencia(city: cities[index])),
           itemCount: cities.length,
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(color: Colors.grey, height: 2),
         );
       },
     );
@@ -73,8 +93,9 @@ class _Sugerencia extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        city.name + ',' + city.country + ',' + city.countryA,
+        city.name + ', ' + city.country + ',  ' + city.countryA,
       ),
+      trailing: const Icon(Icons.location_city_outlined),
       onTap: () {
         Navigator.pop(context, city);
       },
