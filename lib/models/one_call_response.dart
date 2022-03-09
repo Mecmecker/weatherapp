@@ -193,7 +193,7 @@ class Daily {
   List<Weather> weather;
   int clouds;
   double pop;
-  double? rain;
+  num? rain;
   double? snow;
   double uvi;
 
