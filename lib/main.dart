@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
-import 'package:weatherapp/providers/current_weather_provider.dart';
+import 'package:weatherapp/providers/providers.dart';
+
 import 'package:weatherapp/screens/screens.dart';
 import 'package:weatherapp/themes/themes.dart';
 
@@ -21,7 +22,8 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(
           create: (BuildContext _) => CurrentWeatherProvider(),
           lazy: false,
-        )
+        ),
+        ChangeNotifierProvider(create: (BuildContext _) => LayerProvider())
       ],
       child: const MyApp(),
     );
