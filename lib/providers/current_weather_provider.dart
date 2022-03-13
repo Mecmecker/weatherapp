@@ -7,7 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weatherapp/helpers/debouncer.dart';
-
+import 'package:latlong2/latlong.dart';
 import 'package:weatherapp/models/models.dart';
 import 'package:http/http.dart' as http;
 import 'package:weatherapp/services/geolocator_service.dart';
@@ -62,6 +62,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
   final GeolocatorService _geolocatorService = GeolocatorService();
 
   Position? currentLocation;
+  LatLng? coord;
 
   final StreamController<List<CityModel>> _suggestionStreamController =
       StreamController.broadcast();
@@ -77,6 +78,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
 
     notifyListeners();
     if (currentLocation != null) {
+      coord = LatLng(currentLocation!.latitude, currentLocation!.longitude);
       return [
         currentLocation!.latitude.toString(),
         currentLocation!.longitude.toString()

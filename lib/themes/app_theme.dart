@@ -34,6 +34,12 @@ class AppTheme {
     dividerColor: Colors.white.withOpacity(0.1),
     listTileTheme: const ListTileThemeData(
         iconColor: Color.fromARGB(255, 4, 96, 112), horizontalTitleGap: 10),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      elevation: 40,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white30,
+      type: BottomNavigationBarType.shifting,
+    ),
   );
 
   static final ThemeData lightTheme = ThemeData.light().copyWith(

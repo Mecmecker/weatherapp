@@ -21,12 +21,27 @@ class _LayeredMapsScreenState extends State<LayeredMapsScreen> {
     final CurrentWeatherProvider currentWeatherProvider =
         Provider.of<CurrentWeatherProvider>(context);
     final LayerProvider layerProvider = Provider.of<LayerProvider>(context);
-    final List<String> layers = ['PAC0', 'PR0', 'PA0', 'TA2'];
+    final List<String> layers = ['TA2', 'PR0', 'WND', 'CL', 'PA0'];
     return Scaffold(
-      bottomNavigationBar: const _SelectLayerBar(),
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+          ],
+        ),
+        child: const ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50.0),
+              topRight: Radius.circular(50.0),
+            ),
+            child: _SelectLayerBar()),
+      ),
       body: FlutterMap(
         options: MapOptions(
-            zoom: 8.0,
+            center: currentWeatherProvider.coord,
+            zoom: 5.0,
             maxZoom: 20,
             minZoom: 4,
             screenSize: MediaQuery.of(context).size),
@@ -42,10 +57,9 @@ class _LayeredMapsScreenState extends State<LayeredMapsScreen> {
               Marker(
                 width: 50.0,
                 height: 50.0,
-                point: currentWeatherProvider.currentLocation == null
+                point: currentWeatherProvider.coord == null
                     ? LatLng(1, 1)
-                    : LatLng(currentWeatherProvider.currentLocation!.latitude,
-                        currentWeatherProvider.currentLocation!.longitude),
+                    : currentWeatherProvider.coord!,
                 builder: (ctx) => const Icon(Icons.location_on_rounded),
               ),
             ],
@@ -79,20 +93,29 @@ class _SelectLayerBar extends StatelessWidget {
       },
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.cloud),
-          label: 'lluvia',
+          icon: Icon(Icons.thermostat),
+          label: 'Temperatura',
+          backgroundColor: Color.fromARGB(255, 15, 19, 51),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.thermostat),
-          label: 'temperatura',
+          icon: Icon(Icons.cloud),
+          label: 'Lluvia',
+          backgroundColor: Color.fromARGB(255, 15, 19, 51),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.window),
-          label: 'viento',
+          label: 'Viento',
+          backgroundColor: Color.fromARGB(255, 15, 19, 51),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.waterfall_chart_rounded),
-          label: 'humedad',
+          label: 'Nubes',
+          backgroundColor: Color.fromARGB(255, 15, 19, 51),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.waterfall_chart_rounded),
+          label: 'Lluvia acumulada',
+          backgroundColor: Color.fromARGB(255, 15, 19, 51),
         ),
       ],
     );
@@ -104,16 +127,19 @@ TileLayerOptions layerMap(String opt, String palette) {
   return TileLayerOptions(
       urlTemplate:
           "http://maps.openweathermap.org/maps/2.0/weather/$opt/{z}/{x}/{y}?appid=$_apiKey",
-      opacity: 0.6,
+      opacity: 0.8,
       additionalOptions: {'palette': palette});
 }
 
 Map<String, String> layerPalette = {
-  'PAC0': '1:ACAAF7; 10:8D8AF3; 20:706EC2; 40:5658FF; 100:5B5DB1; 200:3E3F85',
-  'PR0':
-      '0.000005:FEF9CA; 0.000009:B9F7A8; 0.000014:93F57D; 0.000023:78F554; 0.000046:50B033; 0.000092:387F22; 0.000231:204E11; 0.000463:F2A33A; 0.000694:E96F2D; 0.000926:EB4726; 0.001388:B02318; 0.002315:971D13; 0.023150:090A08',
-  'PA0':
-      '0:00000000; 0.1:C8969600; 0.2:9696AA00; 0.5:7878BE19; 1:6E6ECD33; 10:5050E1B2; 140:1414FFE5',
   'TA2':
       '-65:821692;-55:821692;-45:821692;-40:821692;-30:8257db;-20:208cec;-10:20c4e8;0:23dddd;10:c2ff28;20:fff028;25:ffc228;30:fc8014',
+  'PR0':
+      '0.000005:FEF9CA; 0.000009:B9F7A8; 0.000014:93F57D; 0.000023:78F554; 0.000046:50B033; 0.000092:387F22; 0.000231:204E11; 0.000463:F2A33A; 0.000694:E96F2D; 0.000926:EB4726; 0.001388:B02318; 0.002315:971D13; 0.023150:090A08',
+  'WND':
+      '1:FFFFFF00; 5:EECECC66; 15:B364BCB3; 25:3F213BCC; 50:744CACE6; 100:4600AFFF; 200:0D1126FF',
+  'CL':
+      '0:FFFFFF00; 10:FDFDFF19; 20:FCFBFF26; 30:FAFAFF33; 40:F9F8FF4C; 50:F7F7FF66; 60:F6F5FF8C; 70:F4F4FFBF; 80:E9E9DFCC; 90:DEDEDED8; 100:D2D2D2FF; 200:D2D2D2FF',
+  'PA0':
+      '0:00000000; 0.1:C8969600; 0.2:9696AA00; 0.5:7878BE19; 1:6E6ECD33; 10:5050E1B2; 140:1414FFE5',
 };
