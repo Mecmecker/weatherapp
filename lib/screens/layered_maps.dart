@@ -24,6 +24,13 @@ class _LayeredMapsScreenState extends State<LayeredMapsScreen> {
     final List<String> layers = ['TA2', 'PR0', 'WS10', 'CL', 'PA0'];
     final List<List<Color>> colors = colores;
     final List<String> units = ['   Cº', 'mm/h', 'm/s', '  %', 'mm'];
+    final List<String> desc = [
+      'Temperatura Actual',
+      'Precipitaciones Actuales',
+      'Velocidad Viento',
+      'Porcentaje Nubes',
+      'Lluvia acumulada'
+    ];
     final List<List<int>> values = valores;
     return Scaffold(
       bottomNavigationBar: const CustomBottomBar(),
@@ -44,77 +51,23 @@ class _LayeredMapsScreenState extends State<LayeredMapsScreen> {
                       units[layerProvider.layerPos],
                       colors[layerProvider.layerPos])),
             ),
-          )
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                height: size.height * 2 / 47,
+                width: size.width * 14 / 20,
+                child: CustomPaint(
+                  foregroundPainter: TitlePainter(desc[layerProvider.layerPos]),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
-}
-
-class LegendPainter extends CustomPainter {
-  final List<int> values;
-  final String unit;
-  final List<Color> colors;
-
-  LegendPainter(this.values, this.unit, this.colors);
-  @override
-  void paint(Canvas canvas, Size size) {
-    var rect = Offset.zero & size;
-    final Paint paint = Paint()
-      ..shader = LinearGradient(colors: colors).createShader(rect)
-      ..strokeWidth = 8
-      ..strokeCap = StrokeCap.round;
-
-    const textStyle = TextStyle(
-      color: Colors.black,
-      fontSize: 16,
-    );
-    final textSpan = TextSpan(
-      text: unit,
-      style: textStyle,
-    );
-    final textPainter = TextPainter(
-      text: textSpan,
-      textDirection: TextDirection.ltr,
-    );
-    textPainter.layout(
-      minWidth: 0,
-      maxWidth: size.width * 1 / 4,
-    );
-
-    const textStyle2 = TextStyle(
-      color: Colors.black,
-      fontSize: 10,
-    );
-    final List<int> valores = values;
-    final double lineLenght = size.width - ((1 / 6) + (1 / 15)) - 20;
-
-    textPainter.paint(canvas, Offset(0, size.height * 2 / 7));
-    canvas.drawLine(Offset(size.width * 1 / 6, size.height * 2 / 3),
-        Offset(size.width * 14 / 15, size.height * 2 / 3), paint);
-    int pos = 0;
-
-    for (double i = 0; i < lineLenght; i += lineLenght / 6) {
-      final textSpan = TextSpan(
-        text: valores[pos].toString(),
-        style: textStyle2,
-      );
-      final textPainter = TextPainter(
-        text: textSpan,
-        textDirection: TextDirection.ltr,
-      );
-      textPainter.layout(
-        minWidth: 0,
-        maxWidth: lineLenght * 1 / 5,
-      );
-      pos++;
-      textPainter.paint(
-          canvas, Offset(size.width * 1 / 7 + i, size.height * 2 / 7));
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 List<List<Color>> colores = [
@@ -144,10 +97,10 @@ List<List<Color>> colores = [
     Color(0xFFFFFFFF),
     Color(0xEECECCFF),
     Color(0xEECECCFF),
+    Color.fromARGB(179, 200, 100, 255),
+    Color.fromARGB(179, 183, 100, 255),
     Color.fromARGB(179, 172, 100, 255),
     Color.fromARGB(179, 141, 100, 255),
-    Color.fromARGB(80, 183, 0, 255),
-    Color.fromARGB(70, 55, 1, 99),
     Color(0x0D1126FF),
   ],
   const [
@@ -162,13 +115,17 @@ List<List<Color>> colores = [
     Color.fromARGB(246, 97, 97, 96),
   ],
   const [
-    Color(0x00000000),
-    Color(0xC8969600),
-    Color(0x9696AA00),
-    Color(0x7878BE19),
-    Color(0x6E6ECD33),
-    Color(0x5050E1B2),
-    Color(0x1414FFE5),
+    Color(0xFFFFFFFF),
+    Color(0xFFFFFFFF),
+    Color(0xFFFFFFFF),
+    Color(0xEECECCFF),
+    Color(0xEECECCFF),
+    Color(0xEECECCFF),
+    Color.fromARGB(220, 100, 128, 255),
+    Color.fromARGB(200, 100, 128, 255),
+    Color.fromARGB(140, 100, 128, 255),
+    Color.fromARGB(140, 100, 128, 255),
+    Color.fromARGB(100, 100, 128, 255),
   ],
 ];
 List<List<int>> valores = [

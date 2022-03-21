@@ -23,7 +23,11 @@ class CustomAppBar extends StatelessWidget {
       expandedHeight: size.height - 130,
       floating: false,
       pinned: true,
-      leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+      leading: IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, 'maps');
+          },
+          icon: const Icon(Icons.menu)),
       actions: [
         IconButton(
           onPressed: () {
