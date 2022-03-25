@@ -2,10 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weatherapp/models/models.dart';
 import 'package:weatherapp/providers/current_weather_provider.dart';
+import 'package:weatherapp/services/notification_service.dart';
 import 'package:weatherapp/widgets/widgets.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance!.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.detached ||
+        state == AppLifecycleState.inactive) return;
+
+    final isBackground = state == AppLifecycleState.paused;
+
+    if (isBackground) {
+      // aqui creare la notificación del tiempo
+      NotificationService().showNotifications();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -27,7 +27,7 @@ class CustomAppBar extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(context, 'maps');
           },
-          icon: const Icon(Icons.menu)),
+          icon: const Icon(Icons.map_rounded)),
       actions: [
         IconButton(
           onPressed: () {

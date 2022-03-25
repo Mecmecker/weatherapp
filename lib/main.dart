@@ -4,11 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:weatherapp/providers/providers.dart';
 
 import 'package:weatherapp/screens/screens.dart';
+import 'package:weatherapp/services/notification_service.dart';
 import 'package:weatherapp/themes/themes.dart';
 
 void main() async {
   await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init(); //
   runApp(const AppState());
 }
 

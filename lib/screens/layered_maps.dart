@@ -55,7 +55,7 @@ class _LayeredMapsScreenState extends State<LayeredMapsScreen> {
           SafeArea(
             child: Align(
               alignment: Alignment.topCenter,
-              child: Container(
+              child: SizedBox(
                 height: size.height * 2 / 47,
                 width: size.width * 14 / 20,
                 child: CustomPaint(
