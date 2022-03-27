@@ -27,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    final CurrentWeatherProvider weatherProvider =
+        Provider.of<CurrentWeatherProvider>(context, listen: false);
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.detached ||
@@ -36,7 +38,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     if (isBackground) {
       // aqui creare la notificación del tiempo
-      NotificationService().showNotifications();
+      String body = weatherProvider.location +
+          '  '
+              '${weatherProvider.weatherLocation!.current.temp.round()}' +
+          ' ºC';
+      NotificationService().showNotifications(body);
     }
   }
 
@@ -77,36 +83,42 @@ class _Pantalla extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        CustomAppBar(weather: call),
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              MaxMinDescription(weather: call),
-              const Divider(),
-              HorasInfoWidget(weather: call),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  PercentCircle(text: 'Humedad', valor: call.current.humidity),
-                  PercentCircle(
-                    text: 'Nubes',
-                    valor: call.current.clouds,
-                  ),
-                ],
-              ),
-              const Divider(),
-              ActualWeatherWidgetsInfo(weather: call),
-              const Divider(),
-              DiasInfoWidget(weather: call),
-              const SizedBox(height: 5),
-              Graficas(weather: call),
-            ],
-          ),
-        )
-      ],
+    final CurrentWeatherProvider weatherProvider =
+        Provider.of<CurrentWeatherProvider>(context);
+    return RefreshIndicator(
+      onRefresh: weatherProvider.refreshData,
+      child: CustomScrollView(
+        slivers: [
+          CustomAppBar(weather: call),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                MaxMinDescription(weather: call),
+                const Divider(),
+                HorasInfoWidget(weather: call),
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    PercentCircle(
+                        text: 'Humedad', valor: call.current.humidity),
+                    PercentCircle(
+                      text: 'Nubes',
+                      valor: call.current.clouds,
+                    ),
+                  ],
+                ),
+                const Divider(),
+                ActualWeatherWidgetsInfo(weather: call),
+                const Divider(),
+                DiasInfoWidget(weather: call),
+                const SizedBox(height: 5),
+                Graficas(weather: call),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

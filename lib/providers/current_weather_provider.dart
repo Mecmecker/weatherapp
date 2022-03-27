@@ -31,20 +31,14 @@ class CurrentWeatherProvider extends ChangeNotifier {
 
   List<OneCallResponse> callsWeather = [];
 
+  OneCallResponse? weatherLocation;
+
   //Pruebas para las graficas de tiempo
   List<HorasModel> infoPorHoras = [];
   List<DiasWeatherModel> infoPorDias = [];
 
   Map<String, dynamic> mapCities = {};
 
-  /* Map<String, List<String>> mapCities = {
-    'Cerdanyola del Vallès': ['41.49064359025308', '2.1356232423292703'],
-    'Barcelona': ['41.385675742914465', '2.1705880101786517'],
-    'Madrid': ['40.41674014299714', '-3.699408682989556'],
-    'L\'Hospitalet de LLobregat': ['41.3597', '2.1003'],
-    'Bruselas': ['50.88632783626364', '4.355948189844188'],
-    'Rzeszów': ['50.03838599493068', '21.98115834592852'],
-  }; */
   void updateWeather(List<String> geo) {
     getOneCallWeather(geo);
     getFourDayHourlyWeather(geo);
@@ -107,6 +101,15 @@ class CurrentWeatherProvider extends ChangeNotifier {
     }); */
   }
 
+  Future<void> refreshData() async {
+    callsWeather.clear();
+    infoPorDias.clear();
+    infoPorHoras.clear();
+
+    getCurrentLocationWeather();
+    getDataPreferences();
+  }
+
   //shred preferences functions
 
   Future<void> saveDataPreferences() async {
@@ -155,6 +158,10 @@ class CurrentWeatherProvider extends ChangeNotifier {
     currentCall.localizacion = localizacion;
     callsWeather.add(currentCall);
 
+    if (localizacion.locality == _location) {
+      weatherLocation = currentCall;
+    }
+
     notifyListeners();
   }
 
@@ -181,7 +188,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
           .then((value) => _location = value.locality!);
       getOneCallWeather(geo);
       getFourDayHourlyWeather(geo);
-      getFourDayHourlyWeather(geo);
+      getSixteenDaysWeather(geo);
     }
   }
 

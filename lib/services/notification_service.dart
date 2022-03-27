@@ -54,11 +54,11 @@ class NotificationService {
         badgeNumber: 0),
   );
 
-  Future<void> showNotifications() async {
+  Future<void> showNotifications(String body) async {
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Notification Title',
-      'This is the Notification Body',
+      'Tiempo actual',
+      body,
       platformChannelSpecifics,
       payload: 'Notification Payload',
     );
