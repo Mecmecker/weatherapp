@@ -18,3 +18,5 @@ export 'package:weatherapp/widgets/custom_layered_map.dart';
 export 'package:weatherapp/widgets/legend_painter.dart';
 
 export 'package:weatherapp/widgets/title_painter.dart';
+
+export 'package:weatherapp/widgets/ficha_info.dart';

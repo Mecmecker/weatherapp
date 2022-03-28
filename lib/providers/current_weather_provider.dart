@@ -149,6 +149,20 @@ class CurrentWeatherProvider extends ChangeNotifier {
     return response.body;
   }
 
+  Future<String> _getJsonDataByGeo16days(
+      String endpoint, String lat, String lon) async {
+    final url = Uri.https(_baseUrl, endpoint, {
+      'lat': lat,
+      'lon': lon,
+      'APPID': _apiKey,
+      'lang': _language,
+      'units': _units,
+      'cnt': '16'
+    });
+    final response = await http.get(url);
+    return response.body;
+  }
+
   getOneCallWeather(List<dynamic> geo) async {
     final jsonData =
         await _getJsonDataByGeo('data/2.5/onecall', geo[0], geo[1]);
@@ -174,8 +188,8 @@ class CurrentWeatherProvider extends ChangeNotifier {
   }
 
   getSixteenDaysWeather(List<dynamic> geo) async {
-    final jsonData =
-        await _getJsonDataByGeo('data/2.5/forecast/daily', geo[0], geo[1]);
+    final jsonData = await _getJsonDataByGeo16days(
+        'data/2.5/forecast/daily', geo[0], geo[1]);
     final DiasWeatherModel currentCall = DiasWeatherModel.fromJson(jsonData);
     infoPorDias.add(currentCall);
     notifyListeners();

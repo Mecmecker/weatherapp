@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl_standalone.dart';
 import 'package:provider/provider.dart';
 import 'package:weatherapp/providers/providers.dart';
 
 import 'package:weatherapp/screens/screens.dart';
 import 'package:weatherapp/services/notification_service.dart';
 import 'package:weatherapp/themes/themes.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   await dotenv.load();
+  await initializeDateFormatting(await findSystemLocale(), null);
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init(); //
   runApp(const AppState());

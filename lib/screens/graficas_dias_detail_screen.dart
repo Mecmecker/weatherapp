@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
 
+import 'package:weatherapp/models/models.dart';
+
+import '../widgets/widgets.dart';
+
 class GraficasDiasScreen extends StatelessWidget {
   const GraficasDiasScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final DiasWeatherModel info =
+        ModalRoute.of(context)!.settings.arguments as DiasWeatherModel;
+    final Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Stack(
         children: [
           _Background(),
-          Align(
-            alignment: Alignment.center,
+          Expanded(
             child: Column(
               children: [
-                const SizedBox(
-                  height: 200,
+                SizedBox(
+                  height: size.height * 1 / 4,
                 ),
                 Expanded(
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                    itemBuilder: (context, index) => Card(
-                      child: Column(
-                        children: [Text('Hola')],
-                      ),
-                    ),
-                    itemCount: 4,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return FichaInfo(datos: info.list[index]);
+                    },
+                    itemCount: info.list.length,
                   ),
-                )
+                ),
               ],
             ),
-          ),
+          )
         ],
       ),
     );
@@ -69,7 +71,7 @@ class _BackgroundPainter extends CustomPainter {
       ..strokeWidth = 7;
 
     final Paint sun = Paint()
-      ..color = const Color.fromARGB(255, 221, 138, 4)
+      ..color = const Color.fromARGB(180, 221, 138, 4)
       ..style = PaintingStyle.fill
       ..strokeWidth = 5;
 

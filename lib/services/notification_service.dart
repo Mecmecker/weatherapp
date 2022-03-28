@@ -66,7 +66,7 @@ class NotificationService {
       tiempo.current.weather[0].description.toUpperCase() +
           '  ' +
           'Prob Lluvia '
-              '${tiempo.current.pop ?? 0 * 100}%',
+              '${(tiempo.current.pop ?? 0) * 100}%',
       platformChannelSpecifics,
       payload: 'Notification Payload',
     );
