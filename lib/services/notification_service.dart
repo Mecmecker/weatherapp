@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:weatherapp/models/models.dart';
 
 class NotificationService {
   //Singleton pattern
@@ -54,11 +55,18 @@ class NotificationService {
         badgeNumber: 0),
   );
 
-  Future<void> showNotifications(String body) async {
+  Future<void> showNotifications(OneCallResponse tiempo) async {
+    String body = tiempo.localizacion!.locality! +
+        '   '
+            '${tiempo.current.temp.round()}' +
+        ' ºC';
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Tiempo actual',
       body,
+      tiempo.current.weather[0].description.toUpperCase() +
+          '  ' +
+          'Prob Lluvia '
+              '${tiempo.current.pop ?? 0 * 100}%',
       platformChannelSpecifics,
       payload: 'Notification Payload',
     );

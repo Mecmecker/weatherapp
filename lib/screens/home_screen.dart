@@ -38,11 +38,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     if (isBackground) {
       // aqui creare la notificación del tiempo
-      String body = weatherProvider.location +
-          '  '
-              '${weatherProvider.weatherLocation!.current.temp.round()}' +
-          ' ºC';
-      NotificationService().showNotifications(body);
+
+      NotificationService().showNotifications(weatherProvider.weatherLocation!);
     }
   }
 
