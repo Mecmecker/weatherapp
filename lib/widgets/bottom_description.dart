@@ -15,44 +15,57 @@ class MaxMinDescription extends StatelessWidget {
     final style = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
 
-    return Container(
-      alignment: Alignment.center,
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        bottomRight: Radius.circular(80),
+        topLeft: Radius.circular(80),
+        topRight: Radius.circular(50),
+        bottomLeft: Radius.circular(50),
+      ),
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: Container(
+          color: Colors.white.withOpacity(0.2),
+          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _RichTextTemp(
-                  style: style,
-                  text: 'Max',
-                  temp: weather.daily[0].temp.max.round()),
-              const SizedBox(width: 20),
-              _RichTextTemp(
-                  style: style,
-                  text: 'Min',
-                  temp: weather.daily[0].temp.min.round()),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+              Center(
+                child: SizedBox(
+                  height: size.height * 1 / 30,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      _RichTextTemp(
+                          style: style,
+                          text: 'Max',
+                          temp: weather.daily[0].temp.max.round()),
+                      const SizedBox(width: 16),
+                      _RichTextTemp(
+                          style: style,
+                          text: 'Min',
+                          temp: weather.daily[0].temp.min.round()),
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(
-                width: size.width * 0.6,
+                height: size.height * 1 / 30,
+                width: size.width * 0.55,
                 child: FittedBox(
                   child: Text(weather.current.weather[0].description,
                       style: style.headline4),
                 ),
               ),
               SizedBox(
-                  width: size.width * 0.3 - 10,
+                  width: size.width * 0.2,
                   child: FittedBox(
                       child: Text(getCurrentDate(), style: style.headline5))),
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
@@ -76,7 +89,7 @@ class _RichTextTemp extends StatelessWidget {
       text: TextSpan(
         children: [
           TextSpan(text: text, style: style.headline6),
-          TextSpan(text: ' $temp ºC', style: style.headline4)
+          TextSpan(text: ' $temp ºC', style: style.headline5)
         ],
       ),
     );

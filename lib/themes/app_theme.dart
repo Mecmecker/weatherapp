@@ -10,8 +10,10 @@ class AppTheme {
 
   static final ThemeData darkTheme = ThemeData.light().copyWith(
     primaryColor: primary,
-    primaryColorDark: const Color.fromARGB(255, 1, 4, 26),
-    scaffoldBackgroundColor: const Color.fromARGB(255, 1, 4, 26),
+    /* primaryColorDark: const Color.fromARGB(255, 1, 4, 26),
+    scaffoldBackgroundColor: const Color.fromARGB(255, 1, 4, 26), */
+    primaryColorDark: const Color.fromARGB(225, 253, 207, 122),
+    scaffoldBackgroundColor: const Color.fromARGB(225, 253, 207, 122),
     appBarTheme: const AppBarTheme(
       elevation: 0,
       color: Color.fromRGBO(1, 4, 26, 0.6),
@@ -34,7 +36,8 @@ class AppTheme {
     dividerColor: Colors.white.withOpacity(0.1),
     listTileTheme: const ListTileThemeData(
         iconColor: Color.fromARGB(255, 4, 96, 112), horizontalTitleGap: 10),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Colors.white.withOpacity(0.2),
       elevation: 40,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white30,

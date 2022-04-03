@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:weatherapp/models/models.dart';
@@ -75,6 +77,11 @@ class _BackgroundPainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..strokeWidth = 5;
 
+    final Paint cloud = Paint()
+      ..color = Color.fromARGB(180, 182, 180, 178)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 5;
+
     const textStyle = TextStyle(
       color: Colors.white,
       fontSize: 26,
@@ -115,6 +122,34 @@ class _BackgroundPainter extends CustomPainter {
 
     canvas.drawCircle(
         Offset(size.width * 9 / 10, size.height * 5 / 8), 200, sun);
+
+    final Paint line = Paint()
+      ..color = const Color.fromARGB(180, 221, 138, 4)
+      ..strokeWidth = 12
+      ..style = PaintingStyle.stroke;
+
+    for (double i = 90; i <= 270; i += 20) {
+      var x1 = (size.width * 9 / 10) + 210 * cos(i * pi / 180);
+      var y1 = (size.height * 5 / 8) + 210 * sin(i * pi / 180);
+
+      var x2 = (size.width * 9 / 10) + 250 * cos(i * pi / 180);
+      var y2 = (size.height * 5 / 8) + 250 * sin(i * pi / 180);
+
+      canvas.drawLine(Offset(x1, y1), Offset(x2, y2), line);
+    }
+    final Path cloudPath = Path();
+    cloudPath.moveTo(size.width * 3 / 7, size.height * 4 / 5);
+    cloudPath.quadraticBezierTo(size.width * 1 / 16, size.height * 7 / 9,
+        size.width * 3 / 7, size.height * 7 / 10);
+    cloudPath.quadraticBezierTo(size.width * 3 / 4, size.height * 5 / 9,
+        size.width * 6 / 7, size.height * 7 / 10);
+    cloudPath.quadraticBezierTo(size.width * 6 / 7, size.height * 6 / 9,
+        size.width, size.height * 7 / 10);
+    cloudPath.lineTo(size.width, size.height * 4 / 5);
+    cloudPath.quadraticBezierTo(size.width * 1 / 2, size.height * 4 / 5,
+        size.width * 3 / 7, size.height * 4 / 5);
+
+    canvas.drawPath(cloudPath, cloud);
 
     textPainter.paint(canvas, Offset(size.width * 1 / 5, size.height * 1 / 9));
   }

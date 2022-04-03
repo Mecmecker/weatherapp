@@ -16,7 +16,8 @@ class HorasInfoWidget extends StatelessWidget {
 
     final calls = weatherProvider.callsWeather;
 
-    return SizedBox(
+    return Container(
+      color: Colors.white.withOpacity(0.2),
       height: 120,
       width: double.infinity,
       child: calls.isEmpty
@@ -51,7 +52,7 @@ class _MiniHoraInfo extends StatelessWidget {
     final style = Theme.of(context).textTheme;
     return SizedBox(
       height: 90,
-      width: 70,
+      width: 72,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

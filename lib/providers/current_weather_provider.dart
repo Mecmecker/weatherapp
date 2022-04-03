@@ -93,12 +93,6 @@ class CurrentWeatherProvider extends ChangeNotifier {
   CurrentWeatherProvider() {
     getCurrentLocationWeather();
     getDataPreferences();
-
-    /* mapCities.forEach((key, value) {
-      getOneCallWeather(value);
-      getFourDayHourlyWeather(value);
-      getSixteenDaysWeather(value);
-    }); */
   }
 
   Future<void> refreshData() async {
@@ -118,6 +112,18 @@ class CurrentWeatherProvider extends ChangeNotifier {
     prefs.clear();
 
     prefs.setString('datos', jsonEncode(mapCities));
+  }
+
+  void removeLocation(String location) {
+    mapCities.remove(location);
+    saveDataPreferences();
+    notifyListeners();
+  }
+
+  void addLocation(Map<String, dynamic> dato) {
+    mapCities.addAll(dato);
+    saveDataPreferences();
+    notifyListeners();
   }
 
   Future<void> getDataPreferences() async {

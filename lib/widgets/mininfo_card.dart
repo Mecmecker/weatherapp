@@ -14,8 +14,10 @@ class MiniInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = Theme.of(context).textTheme;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(40),
-      child: SizedBox(
+      borderRadius: BorderRadius.circular(60),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        color: Colors.white.withOpacity(0.2),
         width: 120,
         height: 150,
         child: Center(

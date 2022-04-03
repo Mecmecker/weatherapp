@@ -15,7 +15,10 @@ class CustomBottomBar extends StatelessWidget {
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(30), topLeft: Radius.circular(30)),
         boxShadow: [
-          BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+          BoxShadow(
+              color: Color.fromARGB(95, 248, 135, 14),
+              spreadRadius: 0,
+              blurRadius: 10),
         ],
       ),
       child: const ClipRRect(
@@ -41,31 +44,31 @@ class _SelectLayerBar extends StatelessWidget {
       onTap: (pos) {
         layerProvider.layerPos = pos;
       },
-      items: const [
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.thermostat),
+          icon: const Icon(Icons.thermostat),
           label: 'Temperatura',
-          backgroundColor: Color.fromARGB(255, 15, 19, 51),
+          backgroundColor: Colors.white.withOpacity(0.2),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.cloud),
+          icon: const Icon(Icons.cloud),
           label: 'Lluvia',
-          backgroundColor: Color.fromARGB(255, 15, 19, 51),
+          backgroundColor: Colors.white.withOpacity(0.2),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.window),
+          icon: const Icon(Icons.window),
           label: 'Viento',
-          backgroundColor: Color.fromARGB(255, 15, 19, 51),
+          backgroundColor: Colors.white.withOpacity(0.2),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.waterfall_chart_rounded),
+          icon: const Icon(Icons.waterfall_chart_rounded),
           label: 'Nubes',
-          backgroundColor: Color.fromARGB(255, 15, 19, 51),
+          backgroundColor: Colors.white.withOpacity(0.2),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.waterfall_chart_rounded),
+          icon: const Icon(Icons.waterfall_chart_rounded),
           label: 'Lluvia acumulada',
-          backgroundColor: Color.fromARGB(255, 15, 19, 51),
+          backgroundColor: Colors.white.withOpacity(0.2),
         ),
       ],
     );

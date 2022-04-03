@@ -25,10 +25,14 @@ class DiasInfoWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.height - 300,
         width: double.infinity,
         child: ListView.builder(
-          itemBuilder: ((context, index) =>
-              _MiniDiaInfo(dailyInfo: weather.daily[index])),
+          itemBuilder: ((context, index) => Column(
+                children: [
+                  const SizedBox(height: 2),
+                  _MiniDiaInfo(dailyInfo: weather.daily[index]),
+                ],
+              )),
           itemCount: weather.daily.length,
-          itemExtent: 55,
+          itemExtent: 60,
           physics: const BouncingScrollPhysics(),
         ),
       ),
@@ -45,6 +49,8 @@ class _MiniDiaInfo extends StatelessWidget {
     final style = Theme.of(context).textTheme;
     final timezone = Provider.of<CurrentWeatherProvider>(context).timezone;
     return ListTile(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(120)),
+      tileColor: Colors.white.withOpacity(0.4),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

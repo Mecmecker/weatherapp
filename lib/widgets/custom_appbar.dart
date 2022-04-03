@@ -18,11 +18,18 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final style = Theme.of(context).textTheme;
+    final location = Provider.of<CurrentWeatherProvider>(context).location;
 
     return SliverAppBar(
-      expandedHeight: size.height - 130,
+      expandedHeight: size.height - 35,
       floating: false,
       pinned: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
       leading: IconButton(
           onPressed: () {
             Navigator.pushNamed(context, 'maps');
@@ -34,7 +41,36 @@ class CustomAppBar extends StatelessWidget {
             Navigator.pushNamed(context, 'search');
           },
           icon: const Icon(Icons.search),
-        )
+        ),
+        if (location != weather.localizacion?.locality)
+          IconButton(
+            onPressed: Provider.of<CurrentWeatherProvider>(context)
+                    .mapCities
+                    .containsKey(weather.localizacion!.locality!)
+                ? () {
+                    Provider.of<CurrentWeatherProvider>(context, listen: false)
+                        .removeLocation(weather.localizacion!.locality!);
+                  }
+                : () {
+                    Provider.of<CurrentWeatherProvider>(context, listen: false)
+                        .addLocation({
+                      weather.localizacion!.locality!: [
+                        weather.lat.toString(),
+                        weather.lon.toString()
+                      ]
+                    });
+                  },
+            icon: Provider.of<CurrentWeatherProvider>(context)
+                    .mapCities
+                    .containsKey(weather.localizacion!.locality!)
+                ? const Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                  )
+                : const Icon(
+                    Icons.favorite_border,
+                  ),
+          )
       ],
       centerTitle: true,
       automaticallyImplyLeading: true,
@@ -49,6 +85,22 @@ class CustomAppBar extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             _InfoCenter(weather: weather),
+            const Align(
+              alignment: Alignment(0.92, 0.98),
+              child: Icon(Icons.keyboard_arrow_down),
+            ),
+            const Align(
+              alignment: Alignment(0.92, 1),
+              child: Icon(Icons.keyboard_arrow_down),
+            ),
+            const Align(
+              alignment: Alignment(-0.92, 0.98),
+              child: Icon(Icons.keyboard_arrow_down),
+            ),
+            const Align(
+              alignment: Alignment(-0.92, 1),
+              child: Icon(Icons.keyboard_arrow_down),
+            ),
           ],
         ),
         titlePadding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
