@@ -23,7 +23,7 @@ class _LayeredMapsScreenState extends State<LayeredMapsScreen> {
     final LayerProvider layerProvider = Provider.of<LayerProvider>(context);
     final List<String> layers = ['TA2', 'PR0', 'WS10', 'CL', 'PA0'];
     final List<List<Color>> colors = colores;
-    final List<String> units = ['   Cº', 'mm/h', 'm/s', '  %', 'mm'];
+    final List<String> units = ['   Cº', 'mm/s', 'm/s', '  %', 'mm'];
     final List<String> desc = [
       'Temperatura Actual',
       'Precipitaciones Actuales',

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weatherapp/models/models.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:weatherapp/providers/current_weather_provider.dart';
 import 'package:weatherapp/search/search_delegate.dart';
 
@@ -43,27 +43,45 @@ class _SearchScreenState extends State<SearchScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            TextButton(
-                onPressed: () {
-                  showSearch(
-                          context: context, delegate: CountrySearchDelegate())
-                      .then((city) {
-                    currentWeatherProvider.locationSearch = city;
-                    cityName = city.name;
-                    update = CameraUpdate.newLatLng(
-                        LatLng(city.cood.lat, city.cood.lon));
-                    changePosition(update!);
-                    setState(() {
-                      markers.add(
-                        Marker(
-                          markerId: MarkerId(city.name),
-                          position: LatLng(city.cood.lat, city.cood.lon),
-                        ),
-                      );
-                    });
-                  });
-                },
-                child: Text(cityName ?? currentWeatherProvider.location)),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(40),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      showSearch(
+                              context: context,
+                              delegate: CountrySearchDelegate())
+                          .then((city) {
+                        currentWeatherProvider.locationSearch = city;
+                        cityName = city.name;
+                        update = CameraUpdate.newLatLng(
+                            LatLng(city.cood.lat, city.cood.lon));
+                        changePosition(update!);
+                        setState(() {
+                          markers.add(
+                            Marker(
+                              markerId: MarkerId(city.name),
+                              position: LatLng(city.cood.lat, city.cood.lon),
+                            ),
+                          );
+                        });
+                      });
+                    },
+                    child: Text(cityName ?? currentWeatherProvider.location),
+                  ),
+                  const Icon(
+                    FontAwesomeIcons.locationArrow,
+                    size: 14,
+                  )
+                ],
+              ),
+            ),
             if (currentWeatherProvider.currentLocation != null)
               Expanded(
                 child: SizedBox(
@@ -150,9 +168,19 @@ class _ButtonBack extends StatelessWidget {
 
         Navigator.pop(context);
       },
-      child: const Text(
-        'Añadir',
-        style: TextStyle(fontSize: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            'Añadir',
+            style: TextStyle(fontSize: 22),
+          ),
+          SizedBox(width: 7),
+          Icon(
+            FontAwesomeIcons.heart,
+            size: 20,
+          ),
+        ],
       ),
     );
   }

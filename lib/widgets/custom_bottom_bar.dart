@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/providers.dart';
 
 class CustomBottomBar extends StatelessWidget {
@@ -51,23 +51,23 @@ class _SelectLayerBar extends StatelessWidget {
           backgroundColor: Colors.white.withOpacity(0.2),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.cloud),
+          icon: const Icon(FontAwesomeIcons.cloudRain),
           label: 'Lluvia',
           backgroundColor: Colors.white.withOpacity(0.2),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.window),
+          icon: const Icon(FontAwesomeIcons.wind),
           label: 'Viento',
           backgroundColor: Colors.white.withOpacity(0.2),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.waterfall_chart_rounded),
+          icon: const Icon(FontAwesomeIcons.cloudSun),
           label: 'Nubes',
           backgroundColor: Colors.white.withOpacity(0.2),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.waterfall_chart_rounded),
-          label: 'Lluvia acumulada',
+          icon: const Icon(FontAwesomeIcons.rulerVertical),
+          label: 'mm/ Acum',
           backgroundColor: Colors.white.withOpacity(0.2),
         ),
       ],

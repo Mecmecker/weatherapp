@@ -54,11 +54,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     return Scaffold(
       body: (calls.isEmpty)
-          ? Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Theme.of(context).backgroundColor,
-              child: const Center(child: CircularProgressIndicator()))
+          ? Stack(
+              children: [
+                _Background(),
+                const Center(child: CircularProgressIndicator()),
+              ],
+            )
           : PageView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return _Pantalla(call: calls[index], index: index);

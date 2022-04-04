@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weatherapp/models/models.dart';
 import 'package:weatherapp/providers/current_weather_provider.dart';
+import 'package:weatherapp/widgets/widgets.dart';
 
 class DiasInfoWidget extends StatelessWidget {
   final OneCallResponse weather;
@@ -14,27 +15,32 @@ class DiasInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final CurrentWeatherProvider weatherProvider =
         Provider.of<CurrentWeatherProvider>(context);
-
+    final style = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, 'dias',
           arguments: weatherProvider.infoPorDias[weatherProvider.infoPorDias
               .indexWhere((element) =>
                   element.city.coord.lat == weather.lat &&
                   element.city.coord.lon == weather.lon)]),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height - 300,
-        width: double.infinity,
-        child: ListView.builder(
-          itemBuilder: ((context, index) => Column(
-                children: [
-                  const SizedBox(height: 2),
-                  _MiniDiaInfo(dailyInfo: weather.daily[index]),
-                ],
-              )),
-          itemCount: weather.daily.length,
-          itemExtent: 60,
-          physics: const BouncingScrollPhysics(),
-        ),
+      child: Stack(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 300,
+            width: double.infinity,
+            child: ListView.builder(
+              itemBuilder: ((context, index) => Column(
+                    children: [
+                      const SizedBox(height: 2),
+                      _MiniDiaInfo(dailyInfo: weather.daily[index]),
+                    ],
+                  )),
+              itemCount: weather.daily.length,
+              itemExtent: 60,
+              physics: const BouncingScrollPhysics(),
+            ),
+          ),
+          Description(style: style),
+        ],
       ),
     );
   }
