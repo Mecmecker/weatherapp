@@ -17,11 +17,11 @@ class NotificationService {
 
   Future<void> init() async {
     //Initialization Settings for Android
-    final AndroidInitializationSettings initializationSettingsAndroid =
+    const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
     //Initialization Settings for iOS
-    final IOSInitializationSettings initializationSettingsIOS =
+    const IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
@@ -29,7 +29,7 @@ class NotificationService {
     );
 
     //InitializationSettings for initializing settings for both platforms (Android & iOS)
-    final InitializationSettings initializationSettings =
+    const InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS);

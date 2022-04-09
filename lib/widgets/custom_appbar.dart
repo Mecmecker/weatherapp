@@ -20,6 +20,18 @@ class CustomAppBar extends StatelessWidget {
     final style = Theme.of(context).textTheme;
     final location = Provider.of<CurrentWeatherProvider>(context).location;
 
+    final photos = {
+      '01': 'assets/sunny.jpg',
+      '02': 'assets/pocasnubes.jpg',
+      '03': 'assets/nubes.jpg',
+      '04': 'assets/brokenclouds.jpg',
+      '09': 'assets/lluvia.jpg',
+      '10': 'assets/chispa.jpg',
+      '11': 'assets/strom.jpg',
+      '13': 'assets/snow.jpg',
+      '14': 'assets/mist.jpg',
+    };
+
     return SliverAppBar(
       expandedHeight: size.height - 35,
       floating: false,
@@ -78,10 +90,10 @@ class CustomAppBar extends StatelessWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            const FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage(
-                  'https://torange.biz/photofxnew/1/HD/clear-sky-1049.jpg'),
+            FadeInImage(
+              placeholder: const AssetImage('assets/no-image.jpg'),
+              image: AssetImage(
+                  photos[weather.current.weather[0].icon.substring(0, 2)]!),
               fit: BoxFit.cover,
             ),
             _InfoCenter(weather: weather),
