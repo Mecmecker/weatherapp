@@ -62,7 +62,7 @@ class Properties {
     this.region,
     this.localadmin,
     this.locality,
-    required this.continent,
+    this.continent,
     required this.label,
     this.countryA,
   });
@@ -72,7 +72,7 @@ class Properties {
   String? region;
   String? localadmin;
   String? locality;
-  String continent;
+  String? continent;
   String label;
   String? countryA;
 

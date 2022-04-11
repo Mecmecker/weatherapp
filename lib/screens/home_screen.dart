@@ -6,6 +6,7 @@ import 'package:weatherapp/models/models.dart';
 import 'package:weatherapp/providers/current_weather_provider.dart';
 import 'package:weatherapp/services/notification_service.dart';
 import 'package:weatherapp/widgets/widgets.dart';
+import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -57,7 +58,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ? Stack(
               children: [
                 _Background(),
-                const Center(child: CircularProgressIndicator()),
+                Center(
+                  child: Lottie.asset('assets/cargaNubes.json', repeat: true),
+                ),
               ],
             )
           : PageView.builder(
