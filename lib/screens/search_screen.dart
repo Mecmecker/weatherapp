@@ -163,6 +163,8 @@ class _ButtonBack extends StatelessWidget {
         weatherProvider.addCity({
           city.name: [city.cood.lat.toString(), city.cood.lon.toString()]
         });
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(city.name + ' ' + 'añadido')));
         weatherProvider.updateWeather(
             [city.cood.lat.toString(), city.cood.lon.toString()]);
 

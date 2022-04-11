@@ -60,6 +60,23 @@ class CustomAppBar extends StatelessWidget {
                     .mapCities
                     .containsKey(weather.localizacion!.locality!)
                 ? () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('Borrado'),
+                        action: SnackBarAction(
+                            label: 'Deshacer',
+                            onPressed: () {
+                              Provider.of<CurrentWeatherProvider>(context,
+                                      listen: false)
+                                  .addLocation({
+                                weather.localizacion!.locality!: [
+                                  weather.lat.toString(),
+                                  weather.lon.toString()
+                                ]
+                              });
+                            }),
+                      ),
+                    );
                     Provider.of<CurrentWeatherProvider>(context, listen: false)
                         .removeLocation(weather.localizacion!.locality!);
                   }
