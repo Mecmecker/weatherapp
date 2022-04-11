@@ -127,7 +127,7 @@ class CustomAppBar extends StatelessWidget {
               color: style.headline4?.color),
           textAlign: TextAlign.center,
         ),
-        expandedTitleScale: 1.6,
+        expandedTitleScale: 1.5,
         centerTitle: true,
       ),
     );

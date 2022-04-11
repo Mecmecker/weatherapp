@@ -101,7 +101,7 @@ class _Pantalla extends StatelessWidget {
                   const Divider(),
                   Container(
                     padding: const EdgeInsets.all(8),
-                    height: MediaQuery.of(context).size.height * 3 / 14,
+                    height: 180,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: const BorderRadius.only(
