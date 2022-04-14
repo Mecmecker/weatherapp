@@ -42,13 +42,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'home',
+      initialRoute: 'intro',
       routes: {
         'home': (context) => const HomeScreen(),
         'horas': (context) => const GraficasHorasScreen(),
         'dias': (context) => const GraficasDiasScreen(),
         'search': (context) => const SearchScreen(),
         'maps': ((context) => const LayeredMapsScreen()),
+        'intro': ((context) => const IntroPage()),
       },
       theme: AppTheme.darkTheme,
     );
