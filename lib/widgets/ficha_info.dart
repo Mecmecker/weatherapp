@@ -15,6 +15,7 @@ class FichaInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timezone = Provider.of<CurrentWeatherProvider>(context).timezone;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(

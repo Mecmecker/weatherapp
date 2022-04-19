@@ -20,81 +20,86 @@ class GraficasHorasScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(info.city.name),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            SingleChildScrollView(
-              child: Column(children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                ListIcons(info: info, timezone: timezone, style: style),
-                SizedBox(
-                  width: _width,
-                  child: HourlyLinearChart(
-                    info: info,
-                    interval: 7,
-                    min: null,
-                    titulo: 'Temperatura hora',
-                    dato: 'temp',
-                    colors: const [
-                      Color.fromARGB(255, 202, 7, 7),
-                      Color.fromARGB(153, 248, 103, 19),
-                      Color.fromARGB(153, 253, 95, 3),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: _width,
-                  child: HourlyLinearChart(
-                    info: info,
-                    interval: 4,
-                    min: null,
-                    titulo: 'Sensación térmica',
-                    dato: 'feelsLike',
-                    colors: const [
-                      Color.fromARGB(255, 5, 51, 1),
-                      Color.fromARGB(153, 160, 236, 157),
-                      Color.fromARGB(153, 100, 156, 74),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                    width: _width,
-                    child: HourlyLinearChart(
+      body: Stack(
+        children: [
+          const _Background(),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                SingleChildScrollView(
+                  child: Column(children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ListIcons(info: info, timezone: timezone, style: style),
+                    SizedBox(
+                      width: _width,
+                      child: HourlyLinearChart(
                         info: info,
-                        interval: 20,
-                        min: 0,
-                        max: 100,
-                        titulo: 'Humedad',
-                        dato: 'humidity',
+                        interval: 7,
+                        min: null,
+                        titulo: 'Temperatura hora',
+                        dato: 'temp',
                         colors: const [
-                          Color.fromARGB(255, 42, 20, 168),
-                          Color.fromARGB(153, 19, 248, 248),
-                          Color.fromARGB(153, 5, 103, 148),
-                        ])),
-                const SizedBox(height: 20),
-                SizedBox(
-                    width: _width,
-                    child: HourlyLinearChart(
+                          Color.fromARGB(255, 202, 7, 7),
+                          Color.fromARGB(153, 248, 103, 19),
+                          Color.fromARGB(153, 253, 95, 3),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: _width,
+                      child: HourlyLinearChart(
                         info: info,
-                        titulo: 'Presión',
-                        dato: 'pressure',
-                        interval: 10,
-                        min: 1000,
+                        interval: 4,
+                        min: null,
+                        titulo: 'Sensación térmica',
+                        dato: 'feelsLike',
                         colors: const [
-                          Color.fromARGB(255, 125, 4, 141),
-                          Color.fromARGB(153, 230, 129, 243),
-                          Color.fromARGB(153, 138, 40, 141),
-                        ])),
-                const SizedBox(height: 20),
-              ]),
+                          Color.fromARGB(255, 5, 51, 1),
+                          Color.fromARGB(153, 160, 236, 157),
+                          Color.fromARGB(153, 100, 156, 74),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                        width: _width,
+                        child: HourlyLinearChart(
+                            info: info,
+                            interval: 20,
+                            min: 0,
+                            max: 100,
+                            titulo: 'Humedad',
+                            dato: 'humidity',
+                            colors: const [
+                              Color.fromARGB(255, 42, 20, 168),
+                              Color.fromARGB(153, 19, 248, 248),
+                              Color.fromARGB(153, 5, 103, 148),
+                            ])),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                        width: _width,
+                        child: HourlyLinearChart(
+                            info: info,
+                            titulo: 'Presión',
+                            dato: 'pressure',
+                            interval: 10,
+                            min: 1000,
+                            colors: const [
+                              Color.fromARGB(255, 125, 4, 141),
+                              Color.fromARGB(153, 230, 129, 243),
+                              Color.fromARGB(153, 138, 40, 141),
+                            ])),
+                    const SizedBox(height: 20),
+                  ]),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -232,4 +237,72 @@ class HourlyLinearChart extends StatelessWidget {
       ),
     );
   }
+}
+
+class _Background extends StatelessWidget {
+  const _Background({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color.fromARGB(225, 253, 207, 122),
+      height: double.infinity,
+      width: double.infinity,
+      child: CustomPaint(painter: _BackgroundPainter()),
+    );
+  }
+}
+
+class _BackgroundPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var rect = Offset.zero & size;
+    const RadialGradient gradient = RadialGradient(
+      center: Alignment(0.8, -0.7), // near the top right
+      radius: 0.2,
+      colors: <Color>[
+        Color.fromARGB(180, 250, 244, 190), // yellow sun
+        Color.fromARGB(180, 251, 229, 59), // blue sky
+      ],
+
+      stops: <double>[0.4, 1.0],
+    );
+
+    const RadialGradient gradient2 = RadialGradient(
+      center: Alignment(1, -0.8), // near the top right
+      radius: 2,
+      colors: <Color>[
+        Color.fromARGB(180, 1, 4, 25), // yellow sun
+        Color.fromARGB(180, 7, 2, 72), // blue sky
+        Color.fromARGB(180, 66, 108, 245), // blue sky
+        Color.fromARGB(180, 58, 250, 253), // blue sky
+      ],
+      stops: <double>[0, 0.4, 0.6, 1.0],
+    );
+
+    final Paint moon = Paint()
+      ..shader = gradient.createShader(rect)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 5;
+
+    final Paint lineSlim = Paint()
+      ..shader = gradient2.createShader(rect)
+      ..strokeWidth = 1
+      ..style = PaintingStyle.fill;
+
+    final Path path = Path();
+    path.moveTo(size.width, 0);
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.lineTo(0, 0);
+
+    canvas.drawPath(path, lineSlim);
+
+    canvas.drawCircle(
+        Offset(size.width * 1 / 10, size.height * 1 / 8), 100, moon);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

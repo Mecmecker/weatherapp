@@ -22,3 +22,5 @@ export 'package:weatherapp/widgets/title_painter.dart';
 export 'package:weatherapp/widgets/ficha_info.dart';
 
 export 'package:weatherapp/widgets/description_widget.dart';
+
+export 'package:weatherapp/widgets/background.dart';
