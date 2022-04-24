@@ -134,7 +134,10 @@ class CustomAppBar extends StatelessWidget {
         ),
         titlePadding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
         title: Text(
-          weather.localizacion!.locality ?? '[${weather.lat},${weather.lon}',
+          weather.localizacion!.locality == ''
+              ? weather.localizacion!.subAdministrativeArea!
+              : weather.localizacion!.locality ??
+                  '[${weather.lat},${weather.lon}',
           maxLines: 2,
           style: TextStyle(
               overflow: TextOverflow.ellipsis,
@@ -210,6 +213,17 @@ class _InfoCenter extends StatelessWidget {
               getCurrenthour(),
               style: style.headline4,
             ),
+            const SizedBox(height: 20),
+            if (weather.localizacion!.street != '')
+              SizedBox(
+                width: size.width * 0.5 - 10,
+                child: FittedBox(
+                  child: Text(
+                    weather.localizacion!.street!,
+                    style: style.headline4,
+                  ),
+                ),
+              ),
             const SizedBox(height: 20),
             if (Provider.of<CurrentWeatherProvider>(context).location ==
                 weather.localizacion?.locality)

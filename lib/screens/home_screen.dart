@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:provider/provider.dart';
 import 'package:weatherapp/models/models.dart';
 import 'package:weatherapp/providers/current_weather_provider.dart';

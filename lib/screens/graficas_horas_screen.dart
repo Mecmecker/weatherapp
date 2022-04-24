@@ -262,7 +262,7 @@ class _BackgroundPainter extends CustomPainter {
       radius: 0.2,
       colors: <Color>[
         Color.fromARGB(180, 250, 244, 190), // yellow sun
-        Color.fromARGB(180, 251, 229, 59), // blue sky
+        Color.fromARGB(180, 244, 235, 171), // blue sky
       ],
 
       stops: <double>[0.4, 1.0],

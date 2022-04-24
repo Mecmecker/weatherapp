@@ -169,7 +169,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     return response.body;
   }
 
-  getOneCallWeather(List<dynamic> geo) async {
+  void getOneCallWeather(List<dynamic> geo) async {
     final jsonData =
         await _getJsonDataByGeo('data/2.5/onecall', geo[0], geo[1]);
     final OneCallResponse currentCall = OneCallResponse.fromJson(jsonData);
@@ -185,7 +185,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getFourDayHourlyWeather(List<dynamic> geo) async {
+  void getFourDayHourlyWeather(List<dynamic> geo) async {
     final jsonData =
         await _getJsonDataByGeo('data/2.5/forecast/hourly', geo[0], geo[1]);
     final HorasModel currentCall = HorasModel.fromJson(jsonData);
@@ -193,7 +193,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getSixteenDaysWeather(List<dynamic> geo) async {
+  void getSixteenDaysWeather(List<dynamic> geo) async {
     final jsonData = await _getJsonDataByGeo16days(
         'data/2.5/forecast/daily', geo[0], geo[1]);
     final DiasWeatherModel currentCall = DiasWeatherModel.fromJson(jsonData);
@@ -201,7 +201,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getCurrentLocationWeather() async {
+  void getCurrentLocationWeather() async {
     final geo = await setCurrentLocation();
     if (geo.isNotEmpty) {
       await getUbicacion(double.parse(geo[0]), double.parse(geo[1]))
@@ -232,7 +232,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
     ];
   }
 
-  getSuggestionsByQuery(String valor) {
+  void getSuggestionsByQuery(String valor) {
     debounce.value = '';
     debounce.onValue = (value) async {
       final results = await searchCity(value);

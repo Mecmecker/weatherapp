@@ -16,7 +16,7 @@ class OneCallResponse {
     required this.timezone,
     required this.timezoneOffset,
     required this.current,
-    required this.minutely,
+    this.minutely,
     required this.hourly,
     required this.daily,
   });
@@ -26,7 +26,7 @@ class OneCallResponse {
   String timezone;
   int timezoneOffset;
   Current current;
-  List<Minutely> minutely;
+  List<Minutely>? minutely;
   List<Current> hourly;
   List<Daily> daily;
 
@@ -35,31 +35,20 @@ class OneCallResponse {
   factory OneCallResponse.fromJson(String str) =>
       OneCallResponse.fromMap(json.decode(str));
 
-  String toJson() => json.encode(toMap());
-
   factory OneCallResponse.fromMap(Map<String, dynamic> json) => OneCallResponse(
         lat: json["lat"].toDouble(),
         lon: json["lon"].toDouble(),
         timezone: json["timezone"],
         timezoneOffset: json["timezone_offset"],
         current: Current.fromMap(json["current"]),
-        minutely: List<Minutely>.from(
-            json["minutely"].map((x) => Minutely.fromMap(x))),
+        minutely: json["minutely"] == null
+            ? null
+            : List<Minutely>.from(
+                json["minutely"].map((x) => Minutely.fromMap(x))),
         hourly:
             List<Current>.from(json["hourly"].map((x) => Current.fromMap(x))),
         daily: List<Daily>.from(json["daily"].map((x) => Daily.fromMap(x))),
       );
-
-  Map<String, dynamic> toMap() => {
-        "lat": lat,
-        "lon": lon,
-        "timezone": timezone,
-        "timezone_offset": timezoneOffset,
-        "current": current.toMap(),
-        "minutely": List<dynamic>.from(minutely.map((x) => x.toMap())),
-        "hourly": List<dynamic>.from(hourly.map((x) => x.toMap())),
-        "daily": List<dynamic>.from(daily.map((x) => x.toMap())),
-      };
 }
 
 class Current {

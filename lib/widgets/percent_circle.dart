@@ -15,7 +15,7 @@ class PercentCircle extends StatelessWidget {
       radius: 80,
       percent: valor / 100,
       animation: true,
-      animationDuration: 5000,
+      animationDuration: 2000,
       circularStrokeCap: CircularStrokeCap.round,
       lineWidth: 15,
       curve: Curves.easeInCirc,
