@@ -19,7 +19,13 @@ class HorasInfoWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Description(style: style),
+        GestureDetector(
+            onTap: () => Navigator.pushNamed(context, 'horas',
+                arguments: weatherProvider.infoPorHoras[
+                    weatherProvider.infoPorHoras.indexWhere((element) =>
+                        element.city.coord.lat == weather.lat &&
+                        element.city.coord.lon == weather.lon)]),
+            child: Hero(tag: 'b', child: Description(style: style))),
         Container(
           color: Colors.white.withOpacity(0.2),
           height: 120,

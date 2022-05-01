@@ -12,7 +12,6 @@ class GraficasDiasScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final DiasWeatherModel info =
         ModalRoute.of(context)!.settings.arguments as DiasWeatherModel;
-    final Size size = MediaQuery.of(context).size;
     final timezone = Provider.of<CurrentWeatherProvider>(context).timezone;
 
     return Scaffold(
@@ -131,7 +130,7 @@ class InfoWidget extends StatelessWidget {
                   children: [
                     const Text('Lluvia', style: style),
                     Text(
-                      '${(datos.pop.round()).toInt() * 100}%',
+                      '${(datos.pop * 100).toInt()}%',
                       style: const TextStyle(fontSize: 30, shadows: [
                         Shadow(color: Colors.black38, blurRadius: 20)
                       ]),

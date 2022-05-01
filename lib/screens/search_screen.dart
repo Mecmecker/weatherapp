@@ -8,6 +8,7 @@ import 'package:weatherapp/models/models.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:weatherapp/providers/current_weather_provider.dart';
 import 'package:weatherapp/search/search_delegate.dart';
+import 'package:weatherapp/themes/main_background.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -39,81 +40,109 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(40),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      showSearch(
-                              context: context,
-                              delegate: CountrySearchDelegate())
-                          .then((city) {
-                        currentWeatherProvider.locationSearch = city;
-                        cityName = city.name;
-                        update = CameraUpdate.newLatLng(
-                            LatLng(city.cood.lat, city.cood.lon));
-                        changePosition(update!);
-                        setState(() {
-                          markers.add(
-                            Marker(
-                              markerId: MarkerId(city.name),
-                              position: LatLng(city.cood.lat, city.cood.lon),
-                            ),
-                          );
-                        });
-                      });
-                    },
-                    child: Text(cityName ?? currentWeatherProvider.location),
-                  ),
-                  const Icon(
-                    FontAwesomeIcons.locationArrow,
-                    size: 14,
-                  )
-                ],
-              ),
+    String? returnCity() {
+      if (cityName == '') return 'Busqueda imprecisa';
+      return cityName;
+    }
+
+    showFunc() {
+      showSearch(context: context, delegate: CountrySearchDelegate())
+          .then((city) {
+        currentWeatherProvider.locationSearch = city;
+        cityName = city.name;
+        update = CameraUpdate.newLatLng(LatLng(city.cood.lat, city.cood.lon));
+        changePosition(update!);
+        setState(() {
+          markers.add(
+            Marker(
+              markerId: MarkerId(city.name),
+              position: LatLng(city.cood.lat, city.cood.lon),
             ),
-            if (currentWeatherProvider.currentLocation != null)
-              Expanded(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                          currentWeatherProvider.currentLocation!.latitude,
-                          currentWeatherProvider.currentLocation!.longitude),
-                      zoom: 16,
+          );
+        });
+      });
+    }
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          const MainBackground(),
+          SafeArea(
+            child: Column(
+              children: [
+                InkResponse(
+                  highlightShape: BoxShape.rectangle,
+                  hoverColor: Colors.black,
+                  onLongPress: showFunc,
+                  onTap: showFunc,
+                  onDoubleTap: showFunc,
+                  child: Container(
+                    height: 40,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
                     ),
-                    onTap: _changePlace,
-                    mapType: MapType.normal,
-                    myLocationEnabled: true,
-                    onMapCreated: (controller) {
-                      _controller.complete(controller);
-                      setState(() {
-                        _mapController = controller;
-                      });
-                    },
-                    markers: markers,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(returnCity() ?? currentWeatherProvider.location),
+                        const SizedBox(width: 15),
+                        const Icon(
+                          FontAwesomeIcons.locationArrow,
+                          size: 14,
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            if (currentWeatherProvider.locationSearch != null)
-              _ButtonBack(city: currentWeatherProvider.locationSearch!),
-            if (currentWeatherProvider.currentLocation == null)
-              const Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
-          ],
-        ),
+                if (currentWeatherProvider.currentLocation != null)
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                              currentWeatherProvider.currentLocation!.latitude,
+                              currentWeatherProvider
+                                  .currentLocation!.longitude),
+                          zoom: 16,
+                        ),
+                        onTap: _changePlace,
+                        mapType: MapType.normal,
+                        myLocationEnabled: true,
+                        onMapCreated: (controller) {
+                          _controller.complete(controller);
+                          setState(() {
+                            _mapController = controller;
+                          });
+                        },
+                        markers: markers,
+                      ),
+                    ),
+                  ),
+                SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: currentWeatherProvider.locationSearch != null
+                      ? _ButtonBack(
+                          city: currentWeatherProvider.locationSearch!)
+                      : const TextButton(
+                          onPressed: null,
+                          child: Text(
+                            'Añadir',
+                            style: TextStyle(fontSize: 22),
+                          ),
+                        ),
+                ),
+                if (currentWeatherProvider.currentLocation == null)
+                  const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
