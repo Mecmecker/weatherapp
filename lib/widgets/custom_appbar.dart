@@ -68,12 +68,13 @@ class CustomAppBar extends StatelessWidget {
                             onPressed: () {
                               Provider.of<CurrentWeatherProvider>(context,
                                       listen: false)
-                                  .addLocation({
-                                weather.localizacion!.locality!: [
+                                  .addLocation(
+                                weather.localizacion!.locality!,
+                                [
                                   weather.lat.toString(),
-                                  weather.lon.toString()
-                                ]
-                              });
+                                  weather.lon.toString(),
+                                ],
+                              );
                             }),
                       ),
                     );
@@ -82,12 +83,13 @@ class CustomAppBar extends StatelessWidget {
                   }
                 : () {
                     Provider.of<CurrentWeatherProvider>(context, listen: false)
-                        .addLocation({
-                      weather.localizacion!.locality!: [
+                        .addLocation(
+                      weather.localizacion!.locality!,
+                      [
                         weather.lat.toString(),
-                        weather.lon.toString()
-                      ]
-                    });
+                        weather.lon.toString(),
+                      ],
+                    );
                   },
             icon: Provider.of<CurrentWeatherProvider>(context)
                     .mapCities

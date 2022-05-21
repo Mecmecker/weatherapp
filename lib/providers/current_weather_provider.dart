@@ -49,7 +49,7 @@ class CurrentWeatherProvider extends ChangeNotifier {
   void addCity(Map<String, List<String>> city) {
     mapCities.addAll(city);
     saveDataPreferences();
-
+    refreshData();
     notifyListeners();
   }
 
@@ -120,8 +120,8 @@ class CurrentWeatherProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addLocation(Map<String, dynamic> dato) {
-    mapCities.addAll(dato);
+  void addLocation(String name, List<String> coord) {
+    if (mapCities.containsKey(name) == false) mapCities[name] = coord;
     saveDataPreferences();
     notifyListeners();
   }

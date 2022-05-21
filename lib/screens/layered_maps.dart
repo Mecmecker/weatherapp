@@ -5,16 +5,11 @@ import 'package:provider/provider.dart';
 import '../providers/providers.dart';
 import '../widgets/widgets.dart';
 
-class LayeredMapsScreen extends StatefulWidget {
+class LayeredMapsScreen extends StatelessWidget {
   const LayeredMapsScreen({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<LayeredMapsScreen> createState() => _LayeredMapsScreenState();
-}
-
-class _LayeredMapsScreenState extends State<LayeredMapsScreen> {
   @override
   Widget build(BuildContext context) {
     final CurrentWeatherProvider currentWeatherProvider =

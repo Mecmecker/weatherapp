@@ -19,7 +19,7 @@ class GraficasHorasScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Hero(tag: 'b', child: Text(info.city.name)),
+        title: Text(info.city.name),
       ),
       body: Stack(
         children: [

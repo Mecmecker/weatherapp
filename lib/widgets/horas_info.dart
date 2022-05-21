@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weatherapp/models/models.dart';
 import 'package:weatherapp/providers/current_weather_provider.dart';
-import 'package:weatherapp/widgets/widgets.dart';
 
 class HorasInfoWidget extends StatelessWidget {
   final OneCallResponse weather;
@@ -14,39 +13,28 @@ class HorasInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final CurrentWeatherProvider weatherProvider =
         Provider.of<CurrentWeatherProvider>(context);
-    final style = Theme.of(context).textTheme;
+
     final calls = weatherProvider.callsWeather;
 
-    return Column(
-      children: [
-        GestureDetector(
-            onTap: () => Navigator.pushNamed(context, 'horas',
-                arguments: weatherProvider.infoPorHoras[
-                    weatherProvider.infoPorHoras.indexWhere((element) =>
-                        element.city.coord.lat == weather.lat &&
-                        element.city.coord.lon == weather.lon)]),
-            child: Hero(tag: 'b', child: Description(style: style))),
-        Container(
-          color: Colors.white.withOpacity(0.2),
-          height: 120,
-          width: double.infinity,
-          child: calls.isEmpty
-              ? const Center(child: CircularProgressIndicator())
-              : GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, 'horas',
-                      arguments: weatherProvider.infoPorHoras[
-                          weatherProvider.infoPorHoras.indexWhere((element) =>
-                              element.city.coord.lat == weather.lat &&
-                              element.city.coord.lon == weather.lon)]),
-                  child: ListView.builder(
-                    itemBuilder: ((context, index) =>
-                        _MiniHoraInfo(info: calls[0].hourly[index])),
-                    itemCount: calls[0].hourly.length,
-                    scrollDirection: Axis.horizontal,
-                  ),
-                ),
-        ),
-      ],
+    return Container(
+      color: Colors.white.withOpacity(0.2),
+      height: 120,
+      width: double.infinity,
+      child: calls.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : GestureDetector(
+              onTap: () => Navigator.pushNamed(context, 'horas',
+                  arguments: weatherProvider.infoPorHoras[
+                      weatherProvider.infoPorHoras.indexWhere((element) =>
+                          element.city.coord.lat == weather.lat &&
+                          element.city.coord.lon == weather.lon)]),
+              child: ListView.builder(
+                itemBuilder: ((context, index) =>
+                    _MiniHoraInfo(info: calls[0].hourly[index])),
+                itemCount: calls[0].hourly.length,
+                scrollDirection: Axis.horizontal,
+              ),
+            ),
     );
   }
 }
