@@ -30,8 +30,8 @@ class HorasInfoWidget extends StatelessWidget {
                           element.city.coord.lon == weather.lon)]),
               child: ListView.builder(
                 itemBuilder: ((context, index) =>
-                    _MiniHoraInfo(info: calls[0].hourly[index])),
-                itemCount: calls[0].hourly.length,
+                    _MiniHoraInfo(info: weather.hourly[index])),
+                itemCount: weather.hourly.length,
                 scrollDirection: Axis.horizontal,
               ),
             ),

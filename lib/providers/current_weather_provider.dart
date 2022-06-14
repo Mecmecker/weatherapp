@@ -89,7 +89,6 @@ class CurrentWeatherProvider extends ChangeNotifier {
   }
 
   //init
-
   CurrentWeatherProvider() {
     getCurrentLocationWeather();
     getDataPreferences();
