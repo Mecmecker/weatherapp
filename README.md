@@ -1,6 +1,11 @@
 # weatherapp
 
-A new Flutter project.
+Weather application using openweatheapi as a main information source. Saving data on user preferences and using Provider as a state manager.
+
+-Flutter_map
+-GoogleMap
+-Provider
+-Flutter_local_notifications
 
 ## Getting Started
 
